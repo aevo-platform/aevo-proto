@@ -1,0 +1,3 @@
+protoc --go_out=../../gen/common/v1 --go_opt=paths=source_relative --go-grpc_out=../../gen/common/v1 --go-grpc_opt=paths=source_relative common.proto
+protoc --go_out=../../gen/brick/v1 --go_opt=paths=source_relative --go-grpc_out=../../gen/brick/v1 --go-grpc_opt=paths=source_relative brick.proto
+protoc --go_out=../../gen/configProfile/v1 --go_opt=paths=source_relative --go-grpc_out=../../gen/configProfile/v1 --go-grpc_opt=paths=source_relative configProfile.proto

@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package aevo.config_profile.v1;
+
+option go_package = "github.com/aevo-platform/catalog-service/proto/config_profile/v1;configprofilev1";
+
+import "common.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+
+enum ConfigComplexity {
+  CONFIG_COMPLEXITY_UNSPECIFIED = 0;
+  CONFIG_COMPLEXITY_EASY        = 1;
+  CONFIG_COMPLEXITY_ADVANCED    = 2;
+}
+
+message ConfigProfile {
+  string                    id               = 1;
+  string                    slug             = 2;
+  string                    name             = 3;
+  string                    description      = 4;
+  string                    brick_slug       = 5;
+  aevo.common.v1.Provider   provider         = 6;
+  google.protobuf.Struct    blueprint_schema = 7;
+  google.protobuf.Struct    field_defaults   = 8;
+  google.protobuf.Timestamp created_at       = 9;
+  google.protobuf.Timestamp updated_at       = 10;
+  ConfigComplexity          complexity       = 11;
+}
+
+message ListConfigProfilesRequest  { string brick_slug = 1; }
+message ListConfigProfilesResponse { repeated ConfigProfile profiles = 1; }
+
+message GetConfigProfileRequest    { string slug = 1; }
+message GetConfigProfileResponse   { ConfigProfile profile = 1; }
+
+message CreateConfigProfileRequest {
+  string                 brick_slug       = 1;
+  string                 slug             = 2;
+  string                 name             = 3;
+  string                 description      = 4;
+  string                 provider_id      = 5;
+  ConfigComplexity       complexity       = 6;
+  google.protobuf.Struct blueprint_schema = 7;
+  google.protobuf.Struct field_defaults   = 8;
+}
+message CreateConfigProfileResponse { ConfigProfile profile = 1; }
+
+message UpdateConfigProfileRequest {
+  string                    slug             = 1;
+  string                    name             = 2;
+  string                    description      = 3;
+  google.protobuf.Struct    blueprint_schema = 4;
+  google.protobuf.Struct    field_defaults   = 5;
+  google.protobuf.FieldMask update_mask      = 6;
+}
+message UpdateConfigProfileResponse { ConfigProfile profile = 1; }
+
+service ConfigProfileService {
+  rpc ListConfigProfiles  (ListConfigProfilesRequest)  returns (ListConfigProfilesResponse);
+  rpc GetConfigProfile    (GetConfigProfileRequest)    returns (GetConfigProfileResponse);
+  rpc CreateConfigProfile (CreateConfigProfileRequest) returns (CreateConfigProfileResponse);
+  rpc UpdateConfigProfile (UpdateConfigProfileRequest) returns (UpdateConfigProfileResponse);
+}

@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package aevo.brick.v1;
+
+option go_package = "github.com/aevo-platform/catalog-service/proto/brick/v1;brickv1";
+
+import "common.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+enum AccessLevel {
+  ACCESS_LEVEL_UNSPECIFIED = 0;
+  ACCESS_LEVEL_LOW         = 1;
+  ACCESS_LEVEL_MEDIUM      = 2;
+  ACCESS_LEVEL_HIGH        = 3;
+}
+
+message Brick {
+  string                    id                   = 1;
+  string                    slug                 = 2;
+  string                    name                 = 3;
+  string                    description          = 4;
+  string                    short_description    = 5;
+  AccessLevel               access_level         = 6;
+  string                    version              = 7;
+  aevo.common.v1.Domain    domain               = 8;
+  repeated string           tags                 = 9;
+  repeated aevo.common.v1.Provider supported_providers = 10;
+
+  google.protobuf.Timestamp created_at           = 11;
+  google.protobuf.Timestamp updated_at           = 12;
+}
+
+// ── Brick ──
+
+message ListBricksRequest {
+  string          domain_id    = 1;
+  string          provider_id = 2;
+  repeated string tags         = 3;
+  int32           page_size    = 4;
+  string          page_token   = 5;
+}
+message ListBricksResponse {
+  repeated Brick bricks          = 1;
+  string         next_page_token = 2;
+  int32          total_count     = 3;
+}
+
+message GetBrickRequest  { string slug = 1; }
+message GetBrickResponse { Brick brick = 1; }
+
+message CreateBrickRequest {
+  string          slug              = 1;
+  string          name              = 2;
+  string          description       = 3;
+  string          short_description = 4;
+  string          version           = 5;
+  string          domain_id         = 6;
+  repeated string tags              = 7;
+  AccessLevel     access_level      = 8;
+  repeated string provider_ids      = 9;
+}
+message CreateBrickResponse { Brick brick = 1; }
+
+message UpdateBrickRequest {
+  string                    slug              = 1;
+  string                    name              = 2;
+  string                    description       = 3;
+  string                    short_description = 4;
+  repeated string           tags              = 5;
+  AccessLevel               access_level      = 6;
+  repeated string           provider_ids      = 7;
+  google.protobuf.FieldMask update_mask       = 8;
+}
+message UpdateBrickResponse { Brick brick = 1; }
+
+
+service BrickService {
+  rpc ListBricks   (ListBricksRequest)   returns (ListBricksResponse);
+  rpc GetBrick     (GetBrickRequest)     returns (GetBrickResponse);
+  rpc CreateBrick  (CreateBrickRequest)  returns (CreateBrickResponse);
+  rpc UpdateBrick  (UpdateBrickRequest)  returns (UpdateBrickResponse);
+}

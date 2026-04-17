@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package aevo.common.v1;
+
+option go_package = "github.com/aevo-platform/aevo-proto/catalog/gen/common/commonv1;commonv1";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/field_mask.proto";
+
+// ── Provider ──
+
+message Provider {
+  string id       = 1;
+  string name     = 2;
+  string icon_url = 3;
+
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+}
+
+message ListProvidersRequest  {}
+message ListProvidersResponse { repeated Provider providers = 1; }
+
+message GetProviderRequest  { string id = 1; }
+message GetProviderResponse { Provider provider = 1; }
+
+message CreateProviderRequest {
+  string name     = 1;
+  string icon_url = 2;
+}
+message CreateProviderResponse { Provider provider = 1; }
+
+message UpdateProviderRequest {
+  string                    id          = 1;
+  string                    name        = 2;
+  string                    icon_url    = 3;
+  google.protobuf.FieldMask update_mask = 4;
+}
+message UpdateProviderResponse { Provider provider = 1; }
+
+message DeleteProviderRequest  { string id = 1; }
+message DeleteProviderResponse {}
+
+// ── Domain ──
+
+message Domain {
+  string id       = 1;
+  string name     = 2;
+  string icon_url = 3;
+
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+}
+
+message ListDomainsRequest  {}
+message ListDomainsResponse { repeated Domain domains = 1; }
+
+message GetDomainRequest  { string id = 1; }
+message GetDomainResponse { Domain domain = 1; }
+
+message CreateDomainRequest {
+  string name     = 1;
+  string icon_url = 2;
+}
+message CreateDomainResponse { Domain domain = 1; }
+
+message UpdateDomainRequest {
+  string                    id          = 1;
+  string                    name        = 2;
+  string                    icon_url    = 3;
+  google.protobuf.FieldMask update_mask = 4;
+}
+message UpdateDomainResponse { Domain domain = 1; }
+
+message DeleteDomainRequest  { string id = 1; }
+message DeleteDomainResponse {}
+
+// ── Services ──
+
+service ProviderService {
+  rpc ListProviders  (ListProvidersRequest)  returns (ListProvidersResponse);
+  rpc GetProvider    (GetProviderRequest)    returns (GetProviderResponse);
+  rpc CreateProvider (CreateProviderRequest) returns (CreateProviderResponse);
+  rpc UpdateProvider (UpdateProviderRequest) returns (UpdateProviderResponse);
+  rpc DeleteProvider (DeleteProviderRequest) returns (DeleteProviderResponse);
+}
+
+service DomainService {
+  rpc ListDomains  (ListDomainsRequest)  returns (ListDomainsResponse);
+  rpc GetDomain    (GetDomainRequest)    returns (GetDomainResponse);
+  rpc CreateDomain (CreateDomainRequest) returns (CreateDomainResponse);
+  rpc UpdateDomain (UpdateDomainRequest) returns (UpdateDomainResponse);
+  rpc DeleteDomain (DeleteDomainRequest) returns (DeleteDomainResponse);
+}
