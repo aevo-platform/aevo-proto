@@ -211,7 +211,6 @@ func (x *Brick) GetUpdatedAt() *timestamppb.Timestamp {
 type ListBricksRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	DomainId      string                 `protobuf:"bytes,1,opt,name=domain_id,json=domainId,proto3" json:"domain_id,omitempty"`
-	ProviderId    string                 `protobuf:"bytes,2,opt,name=provider_id,json=providerId,proto3" json:"provider_id,omitempty"`
 	Tags          []string               `protobuf:"bytes,3,rep,name=tags,proto3" json:"tags,omitempty"`
 	PageSize      int32                  `protobuf:"varint,4,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	PageToken     string                 `protobuf:"bytes,5,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
@@ -252,13 +251,6 @@ func (*ListBricksRequest) Descriptor() ([]byte, []int) {
 func (x *ListBricksRequest) GetDomainId() string {
 	if x != nil {
 		return x.DomainId
-	}
-	return ""
-}
-
-func (x *ListBricksRequest) GetProviderId() string {
-	if x != nil {
-		return x.ProviderId
 	}
 	return ""
 }
@@ -748,11 +740,9 @@ const file_brick_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\xa1\x01\n" +
+	"updated_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\x80\x01\n" +
 	"\x11ListBricksRequest\x12\x1b\n" +
-	"\tdomain_id\x18\x01 \x01(\tR\bdomainId\x12\x1f\n" +
-	"\vprovider_id\x18\x02 \x01(\tR\n" +
-	"providerId\x12\x12\n" +
+	"\tdomain_id\x18\x01 \x01(\tR\bdomainId\x12\x12\n" +
 	"\x04tags\x18\x03 \x03(\tR\x04tags\x12\x1b\n" +
 	"\tpage_size\x18\x04 \x01(\x05R\bpageSize\x12\x1d\n" +
 	"\n" +
