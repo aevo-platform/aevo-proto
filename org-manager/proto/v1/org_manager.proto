@@ -1,0 +1,467 @@
+syntax = "proto3";
+
+package aevo.org_manager.v1;
+
+option go_package = "github.com/aevo/org-manager/gen/go/org_manager/v1;org_managerv1";
+option java_multiple_files = true;
+option java_package = "io.aevo.org_manager.v1";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/empty.proto";
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Ruolo di un membro all'interno di una Organization.
+// I permessi effettivi vengono risolti da OPA/Casbin in BrixOS_EDGE,
+// ma il ruolo è owned da questo servizio.
+enum OrgRole {
+  ORG_ROLE_UNSPECIFIED = 0;
+  ORG_ROLE_OWNER       = 1; // Controllo totale, può eliminare l'org
+  ORG_ROLE_ADMIN       = 2; // Gestione membri e group, no billing
+  ORG_ROLE_MEMBER      = 3; // Accesso in lettura/scrittura ai progetti
+  ORG_ROLE_VIEWER      = 4; // Accesso in sola lettura
+  ORG_ROLE_BILLING     = 5; // Solo accesso al BILLING_SERVICE
+}
+
+// Ruolo di un membro all'interno di un Group.
+enum GroupRole {
+  GROUP_ROLE_UNSPECIFIED = 0;
+  GROUP_ROLE_MAINTAINER  = 1; // Può aggiungere/rimuovere membri dal group
+  GROUP_ROLE_MEMBER      = 2;
+}
+
+// Stato del ciclo di vita di una Organization.
+enum OrgStatus {
+  ORG_STATUS_UNSPECIFIED = 0;
+  ORG_STATUS_ACTIVE      = 1;
+  ORG_STATUS_SUSPENDED   = 2; // Es. billing scaduto
+  ORG_STATUS_DELETED     = 3; // Soft delete
+}
+
+// Stato di un invito pendente.
+enum InvitationStatus {
+  INVITATION_STATUS_UNSPECIFIED = 0;
+  INVITATION_STATUS_PENDING     = 1;
+  INVITATION_STATUS_ACCEPTED    = 2;
+  INVITATION_STATUS_DECLINED    = 3;
+  INVITATION_STATUS_EXPIRED     = 4;
+  INVITATION_STATUS_REVOKED     = 5;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CORE MESSAGES
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Organization: tenant principale. Tutti gli altri oggetti vi appartengono.
+message Organization {
+  string    org_id      = 1;  // UUID v7 (sortable)
+  string    name        = 2;  // Nome display (es. "Acme Corp")
+  string    slug        = 3;  // Identificatore URL-safe univoco (es. "acme-corp")
+  string    description = 4;
+  OrgStatus status      = 5;
+
+  // Impostazioni specifiche dell'org (estensibili senza breaking change)
+  OrgSettings settings  = 6;
+
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
+  google.protobuf.Timestamp deleted_at = 9; // Valorizzato solo se soft-deleted
+}
+
+// Impostazioni configurabili di una Organization.
+message OrgSettings {
+  bool   enforce_sso          = 1; // SSO obbligatorio per tutti i membri
+  bool   enforce_mfa          = 2; // MFA obbligatorio
+  int32  max_projects         = 3; // 0 = illimitato (dipende dal piano)
+  int32  max_members          = 4;
+  string default_cloud_region = 5; // Es. "eu-west-1"
+  repeated string allowed_cloud_providers = 6; // Es. ["aws", "gcp"]
+}
+
+// Membro di una Organization.
+// Un utente è identificato da user_id (owned da identity provider esterno).
+message OrgMember {
+  string  org_id    = 1;
+  string  user_id   = 2;  // ID dall'Identity Provider (Keycloak, ecc.)
+  string  email     = 3;  // Denormalizzato per leggibilità (non è source of truth)
+  OrgRole role      = 4;
+  bool    is_active = 5;
+
+  google.protobuf.Timestamp joined_at    = 6;
+  google.protobuf.Timestamp last_seen_at = 7; // Aggiornato da AEVO_EDGE ad ogni request
+}
+
+// Group: sottogruppo logico di una Organization.
+// Utile per assegnare permessi a livello di progetto per un gruppo.
+message Group {
+  string org_id      = 1;
+  string group_id    = 2;  // UUID v7
+  string name        = 3;
+  string description = 4;
+
+  map<string, string> labels = 5;
+
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+}
+
+// Membership di un utente in un Group.
+message GroupMember {
+  string    org_id   = 1;
+  string    group_id = 2;
+  string    user_id  = 3;
+  GroupRole role     = 4;
+
+  google.protobuf.Timestamp added_at = 5;
+}
+
+// Invito a unirsi a una Organization.
+message Invitation {
+  string           invitation_id = 1;
+  string           org_id        = 2;
+  string           email         = 3;  // Destinatario
+  OrgRole          role          = 4;  // Ruolo che avrà all'accettazione
+  string           invited_by    = 5;  // user_id di chi ha invitato
+  InvitationStatus status        = 6;
+  string           token         = 7;  // Token opaco per il link di accettazione (solo in risposta Create)
+
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp expires_at = 9;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REQUEST / RESPONSE MESSAGES — Organization
+// ─────────────────────────────────────────────────────────────────────────────
+
+message CreateOrganizationRequest {
+  string      name        = 1;
+  string      slug        = 2;
+  string      description = 3;
+  OrgSettings settings    = 4;
+  // Il creator_user_id viene estratto dal JWT in BrixOS_EDGE e passato
+  // come metadata gRPC — non è un campo della request pubblica.
+}
+
+message CreateOrganizationResponse {
+  Organization organization = 1;
+}
+
+message GetOrganizationRequest {
+  string org_id = 1; // Alternativa: usare lo slug
+  string slug   = 2; // Uno dei due è richiesto
+}
+
+message GetOrganizationResponse {
+  Organization organization = 1;
+}
+
+message UpdateOrganizationRequest {
+  string                    org_id      = 1;
+  Organization              org         = 2;
+  google.protobuf.FieldMask update_mask = 3; // Solo i campi indicati vengono aggiornati
+}
+
+message UpdateOrganizationResponse {
+  Organization organization = 1;
+}
+
+message DeleteOrganizationRequest {
+  string org_id      = 1;
+  bool   hard_delete = 2; // Default false (soft delete). True solo per admin AEVO.
+}
+
+message ListOrganizationsRequest {
+  string    page_token    = 1;  // Cursor-based pagination
+  int32     page_size     = 2;  // Max 100
+  string    user_id       = 3;  // Filtra le org a cui appartiene questo utente
+  OrgStatus status_filter = 4;
+}
+
+message ListOrganizationsResponse {
+  repeated Organization organizations = 1;
+  string next_page_token              = 2; // Vuoto se non ci sono altre pagine
+  int32  total_count                  = 3;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REQUEST / RESPONSE MESSAGES — Members
+// ─────────────────────────────────────────────────────────────────────────────
+
+message GetOrgMemberRequest {
+  string org_id  = 1;
+  string user_id = 2;
+}
+
+message GetOrgMemberResponse {
+  OrgMember member = 1;
+}
+
+message ListOrgMembersRequest {
+  string  org_id      = 1;
+  string  page_token  = 2;
+  int32   page_size   = 3;
+  OrgRole role_filter = 4; // ORG_ROLE_UNSPECIFIED = tutti
+}
+
+message ListOrgMembersResponse {
+  repeated OrgMember members = 1;
+  string next_page_token     = 2;
+  int32  total_count         = 3;
+}
+
+message UpdateMemberRoleRequest {
+  string  org_id   = 1;
+  string  user_id  = 2;
+  OrgRole new_role = 3;
+}
+
+message UpdateMemberRoleResponse {
+  OrgMember member = 1;
+}
+
+message RemoveMemberRequest {
+  string org_id  = 1;
+  string user_id = 2;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REQUEST / RESPONSE MESSAGES — Groups
+// ─────────────────────────────────────────────────────────────────────────────
+
+message CreateGroupRequest {
+  string org_id      = 1;
+  string name        = 2;
+  string description = 3;
+  map<string, string> labels = 4;
+}
+
+message CreateGroupResponse {
+  Group group = 1;
+}
+
+message GetGroupRequest {
+  string org_id   = 1;
+  string group_id = 2;
+}
+
+message GetGroupResponse {
+  Group group = 1;
+}
+
+message ListGroupsRequest {
+  string org_id     = 1;
+  string page_token = 2;
+  int32  page_size  = 3;
+  string user_id    = 4; // Filtra i group a cui appartiene questo utente
+}
+
+message ListGroupsResponse {
+  repeated Group groups  = 1;
+  string next_page_token = 2;
+  int32  total_count     = 3;
+}
+
+message UpdateGroupRequest {
+  string                    org_id      = 1;
+  string                    group_id    = 2;
+  Group                     group       = 3;
+  google.protobuf.FieldMask update_mask = 4;
+}
+
+message UpdateGroupResponse {
+  Group group = 1;
+}
+
+message DeleteGroupRequest {
+  string org_id   = 1;
+  string group_id = 2;
+}
+
+message AddGroupMemberRequest {
+  string    org_id   = 1;
+  string    group_id = 2;
+  string    user_id  = 3;
+  GroupRole role     = 4;
+}
+
+message AddGroupMemberResponse {
+  GroupMember member = 1;
+}
+
+message RemoveGroupMemberRequest {
+  string org_id   = 1;
+  string group_id = 2;
+  string user_id  = 3;
+}
+
+message ListGroupMembersRequest {
+  string org_id     = 1;
+  string group_id   = 2;
+  string page_token = 3;
+  int32  page_size  = 4;
+}
+
+message ListGroupMembersResponse {
+  repeated GroupMember members = 1;
+  string next_page_token       = 2;
+  int32  total_count           = 3;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REQUEST / RESPONSE MESSAGES — Invitations
+// ─────────────────────────────────────────────────────────────────────────────
+
+message CreateInvitationRequest {
+  string  org_id           = 1;
+  string  email            = 2;
+  OrgRole role             = 3;
+  int32   expires_in_hours = 4; // TTL opzionale (default: 7 giorni)
+}
+
+message CreateInvitationResponse {
+  Invitation invitation = 1;
+  // invite_url è costruito da BrixOS_EDGE, non qui —
+  // questo servizio restituisce solo il token.
+}
+
+message AcceptInvitationRequest {
+  string token   = 1; // Token dall'URL
+  string user_id = 2; // Estratto dal JWT dell'utente che accetta
+}
+
+message AcceptInvitationResponse {
+  OrgMember    member = 1;
+  Organization org    = 2;
+}
+
+message DeclineInvitationRequest {
+  string token = 1;
+}
+
+message RevokeInvitationRequest {
+  string org_id        = 1;
+  string invitation_id = 2;
+}
+
+message ListInvitationsRequest {
+  string           org_id        = 1;
+  string           page_token    = 2;
+  int32            page_size     = 3;
+  InvitationStatus status_filter = 4;
+}
+
+message ListInvitationsResponse {
+  repeated Invitation invitations = 1;
+  string next_page_token          = 2;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// EVENTS — Pubblicati su NATS JetStream
+// Questi message definiscono il contratto del bus di eventi.
+// Subject pattern: aevo.org_manager.v1.<event_type>
+// ─────────────────────────────────────────────────────────────────────────────
+
+message EventMetadata {
+  string event_id       = 1; // UUID v7
+  string event_type     = 2; // Es. "org.created"
+  string source_service = 3; // "org_manager"
+  string correlation_id = 4; // Per tracciare request cross-service
+  google.protobuf.Timestamp occurred_at = 5;
+}
+
+message OrgCreatedEvent {
+  EventMetadata metadata           = 1;
+  Organization  org                = 2;
+  string        created_by_user_id = 3;
+}
+
+message OrgUpdatedEvent {
+  EventMetadata             metadata           = 1;
+  Organization              org                = 2;
+  google.protobuf.FieldMask changed_fields     = 3;
+  string                    updated_by_user_id = 4;
+}
+
+message OrgDeletedEvent {
+  EventMetadata metadata           = 1;
+  string        org_id             = 2;
+  bool          hard_delete        = 3;
+  string        deleted_by_user_id = 4;
+}
+
+message MemberJoinedEvent {
+  EventMetadata metadata = 1;
+  OrgMember     member   = 2;
+}
+
+message MemberRoleChangedEvent {
+  EventMetadata metadata           = 1;
+  string        org_id             = 2;
+  string        user_id            = 3;
+  OrgRole       old_role           = 4;
+  OrgRole       new_role           = 5;
+  string        changed_by_user_id = 6;
+}
+
+message MemberRemovedEvent {
+  EventMetadata metadata           = 1;
+  string        org_id             = 2;
+  string        user_id            = 3;
+  string        removed_by_user_id = 4;
+}
+
+message InvitationCreatedEvent {
+  EventMetadata metadata   = 1;
+  Invitation    invitation = 2;
+}
+
+message InvitationAcceptedEvent {
+  EventMetadata metadata      = 1;
+  string        invitation_id = 2;
+  string        org_id        = 3;
+  string        user_id       = 4;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SERVICE DEFINITIONS
+// ─────────────────────────────────────────────────────────────────────────────
+
+// OrgService: operazioni sulle Organizations e sui loro Membri diretti.
+service OrgService {
+
+  // --- Organization CRUD ---
+  rpc CreateOrganization (CreateOrganizationRequest) returns (CreateOrganizationResponse);
+  rpc GetOrganization    (GetOrganizationRequest)    returns (GetOrganizationResponse);
+  rpc UpdateOrganization (UpdateOrganizationRequest) returns (UpdateOrganizationResponse);
+  rpc DeleteOrganization (DeleteOrganizationRequest) returns (google.protobuf.Empty);
+  rpc ListOrganizations  (ListOrganizationsRequest)  returns (ListOrganizationsResponse);
+
+  // --- Members ---
+  rpc GetOrgMember     (GetOrgMemberRequest)     returns (GetOrgMemberResponse);
+  rpc ListOrgMembers   (ListOrgMembersRequest)   returns (ListOrgMembersResponse);
+  rpc UpdateMemberRole (UpdateMemberRoleRequest) returns (UpdateMemberRoleResponse);
+  rpc RemoveMember     (RemoveMemberRequest)     returns (google.protobuf.Empty);
+
+  // --- Invitations ---
+  rpc CreateInvitation  (CreateInvitationRequest)  returns (CreateInvitationResponse);
+  rpc AcceptInvitation  (AcceptInvitationRequest)  returns (AcceptInvitationResponse);
+  rpc DeclineInvitation (DeclineInvitationRequest) returns (google.protobuf.Empty);
+  rpc RevokeInvitation  (RevokeInvitationRequest)  returns (google.protobuf.Empty);
+  rpc ListInvitations   (ListInvitationsRequest)   returns (ListInvitationsResponse);
+}
+
+// GroupService: gestione dei Group interni a una Organization.
+service GroupService {
+  rpc CreateGroup (CreateGroupRequest) returns (CreateGroupResponse);
+  rpc GetGroup    (GetGroupRequest)    returns (GetGroupResponse);
+  rpc ListGroups  (ListGroupsRequest)  returns (ListGroupsResponse);
+  rpc UpdateGroup (UpdateGroupRequest) returns (UpdateGroupResponse);
+  rpc DeleteGroup (DeleteGroupRequest) returns (google.protobuf.Empty);
+
+  rpc AddGroupMember    (AddGroupMemberRequest)    returns (AddGroupMemberResponse);
+  rpc RemoveGroupMember (RemoveGroupMemberRequest) returns (google.protobuf.Empty);
+  rpc ListGroupMembers  (ListGroupMembersRequest)  returns (ListGroupMembersResponse);
+}
