@@ -2608,8 +2608,8 @@ const file_project_manager_proto_rawDesc = "" +
 	"\rGetDeployment\x12-.aevo.project_service.v1.GetDeploymentRequest\x1a..aevo.project_service.v1.GetDeploymentResponse\x12\\\n" +
 	"\x10CancelDeployment\x120.aevo.project_service.v1.CancelDeploymentRequest\x1a\x16.google.protobuf.Empty\x12t\n" +
 	"\x0fListDeployments\x12/.aevo.project_service.v1.ListDeploymentsRequest\x1a0.aevo.project_service.v1.ListDeploymentsResponse\x12v\n" +
-	"\x0fWatchDeployment\x12/.aevo.project_service.v1.WatchDeploymentRequest\x1a0.aevo.project_service.v1.WatchDeploymentResponse0\x01Bh\n" +
-	"\x1aio.aevo.project_service.v1P\x01ZHgithub.com/aevo-platform/project-manager/gen/project/v1;project_manager1b\x06proto3"
+	"\x0fWatchDeployment\x12/.aevo.project_service.v1.WatchDeploymentRequest\x1a0.aevo.project_service.v1.WatchDeploymentResponse0\x01Bs\n" +
+	"\x1aio.aevo.project_service.v1P\x01ZSgithub.com/aevo-platform/aevo-proto/project-manager/gen/project/v1;project_manager1b\x06proto3"
 
 var (
 	file_project_manager_proto_rawDescOnce sync.Once
