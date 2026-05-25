@@ -711,7 +711,7 @@ const file_configProfile_proto_rawDesc = "" +
 	"\x12ListConfigProfiles\x121.aevo.config_profile.v1.ListConfigProfilesRequest\x1a2.aevo.config_profile.v1.ListConfigProfilesResponse\x12u\n" +
 	"\x10GetConfigProfile\x12/.aevo.config_profile.v1.GetConfigProfileRequest\x1a0.aevo.config_profile.v1.GetConfigProfileResponse\x12~\n" +
 	"\x13CreateConfigProfile\x122.aevo.config_profile.v1.CreateConfigProfileRequest\x1a3.aevo.config_profile.v1.CreateConfigProfileResponse\x12~\n" +
-	"\x13UpdateConfigProfile\x122.aevo.config_profile.v1.UpdateConfigProfileRequest\x1a3.aevo.config_profile.v1.UpdateConfigProfileResponseBRZPgithub.com/aevo-platform/catalog-service/proto/config_profile/v1;configprofilev1b\x06proto3"
+	"\x13UpdateConfigProfile\x122.aevo.config_profile.v1.UpdateConfigProfileRequest\x1a3.aevo.config_profile.v1.UpdateConfigProfileResponseB]Z[github.com/aevo-platform/aevo-proto/catalog-service/proto/config_profile/v1;configprofilev1b\x06proto3"
 
 var (
 	file_configProfile_proto_rawDescOnce sync.Once

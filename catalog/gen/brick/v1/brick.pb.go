@@ -790,7 +790,7 @@ const file_brick_proto_rawDesc = "" +
 	"ListBricks\x12 .aevo.brick.v1.ListBricksRequest\x1a!.aevo.brick.v1.ListBricksResponse\x12K\n" +
 	"\bGetBrick\x12\x1e.aevo.brick.v1.GetBrickRequest\x1a\x1f.aevo.brick.v1.GetBrickResponse\x12T\n" +
 	"\vCreateBrick\x12!.aevo.brick.v1.CreateBrickRequest\x1a\".aevo.brick.v1.CreateBrickResponse\x12T\n" +
-	"\vUpdateBrick\x12!.aevo.brick.v1.UpdateBrickRequest\x1a\".aevo.brick.v1.UpdateBrickResponseBAZ?github.com/aevo-platform/catalog-service/proto/brick/v1;brickv1b\x06proto3"
+	"\vUpdateBrick\x12!.aevo.brick.v1.UpdateBrickRequest\x1a\".aevo.brick.v1.UpdateBrickResponseBLZJgithub.com/aevo-platform/aevo-proto/catalog-service/proto/brick/v1;brickv1b\x06proto3"
 
 var (
 	file_brick_proto_rawDescOnce sync.Once

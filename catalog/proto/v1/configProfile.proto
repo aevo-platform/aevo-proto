@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package aevo.config_profile.v1;
 
-option go_package = "github.com/aevo-platform/catalog-service/proto/config_profile/v1;configprofilev1";
+option go_package = "github.com/aevo-platform/aevo-proto/catalog-service/proto/config_profile/v1;configprofilev1";
 
 import "common.proto";
 import "google/protobuf/struct.proto";

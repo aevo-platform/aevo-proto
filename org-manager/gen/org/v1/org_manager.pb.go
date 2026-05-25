@@ -3830,8 +3830,8 @@ const file_org_manager_proto_rawDesc = "" +
 	"\vDeleteGroup\x12'.aevo.org_manager.v1.DeleteGroupRequest\x1a\x16.google.protobuf.Empty\x12i\n" +
 	"\x0eAddGroupMember\x12*.aevo.org_manager.v1.AddGroupMemberRequest\x1a+.aevo.org_manager.v1.AddGroupMemberResponse\x12Z\n" +
 	"\x11RemoveGroupMember\x12-.aevo.org_manager.v1.RemoveGroupMemberRequest\x1a\x16.google.protobuf.Empty\x12o\n" +
-	"\x10ListGroupMembers\x12,.aevo.org_manager.v1.ListGroupMembersRequest\x1a-.aevo.org_manager.v1.ListGroupMembersResponseBX\n" +
-	"\x16io.aevo.org_manager.v1P\x01Z<github.com/aevo-platform/org-manager/gen/org/v1;org_manager1b\x06proto3"
+	"\x10ListGroupMembers\x12,.aevo.org_manager.v1.ListGroupMembersRequest\x1a-.aevo.org_manager.v1.ListGroupMembersResponseBc\n" +
+	"\x16io.aevo.org_manager.v1P\x01ZGgithub.com/aevo-platform/aevo-proto/org-manager/gen/org/v1;org_manager1b\x06proto3"
 
 var (
 	file_org_manager_proto_rawDescOnce sync.Once

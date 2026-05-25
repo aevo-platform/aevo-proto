@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package aevo.org_manager.v1;
 
-option go_package = "github.com/aevo-platform/org-manager/gen/org/v1;org_manager1";
+option go_package = "github.com/aevo-platform/aevo-proto/org-manager/gen/org/v1;org_manager1";
 option java_multiple_files = true;
 option java_package = "io.aevo.org_manager.v1";
 
