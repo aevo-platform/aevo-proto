@@ -1,0 +1,334 @@
+syntax = "proto3";
+
+package aevo.project_service.v1;
+
+option go_package = "github.com/aevo/project-service/gen/go/project_service/v1;project_servicev1";
+option java_multiple_files = true;
+option java_package = "io.aevo.project_service.v1";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/empty.proto";
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────────────────────────────────────────
+
+enum ProjectStatus {
+  PROJECT_STATUS_UNSPECIFIED = 0;
+  PROJECT_STATUS_ACTIVE      = 1;
+  PROJECT_STATUS_ARCHIVED    = 2;
+  PROJECT_STATUS_DELETED     = 3;
+}
+
+enum VariableType {
+  VARIABLE_TYPE_UNSPECIFIED = 0;
+  VARIABLE_TYPE_PLAIN       = 1;
+  VARIABLE_TYPE_SECRET      = 2;
+  VARIABLE_TYPE_REFERENCE   = 3; // Points to an external secret (e.g. AWS SSM, Vault)
+}
+
+enum DeploymentStatus {
+  DEPLOYMENT_STATUS_UNSPECIFIED = 0;
+  DEPLOYMENT_STATUS_PENDING     = 1;
+  DEPLOYMENT_STATUS_RUNNING     = 2;
+  DEPLOYMENT_STATUS_FAILED      = 3;
+  DEPLOYMENT_STATUS_CANCELED    = 4;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CORE MESSAGES
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Project is the top-level logical container. Each project maps to exactly one
+// deployment target — use separate projects to separate staging from production.
+message Project {
+  string        project_id  = 1;  // UUID v7
+  string        org_id      = 2;  // Owned by ORG_MANAGER — reference only
+  string        name        = 3;
+  string        slug        = 4;  // URL-safe, unique per org
+  string        description = 5;
+  ProjectStatus status      = 6;
+
+
+  google.protobuf.Timestamp created_at  = 11;
+  google.protobuf.Timestamp updated_at  = 12;
+  google.protobuf.Timestamp deleted_at  = 13;
+  string owner_id             = 14;
+}
+
+// Variable: key-value pair (plain or secret) scoped to a project.
+message Variable {  
+  string       variable_id = 1;  // UUID v7
+  string       project_id  = 2;
+  string       key         = 4;  // e.g. "DATABASE_URL"
+  string       value       = 5;  // Empty if type == SECRET or REFERENCE
+  VariableType type        = 6;
+
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp updated_at = 10;
+}
+
+// Deployment represents a single apply operation to the cluster.
+message Deployment {
+  string           deployment_id            = 1;  // UUID v7
+  string           project_id               = 2;
+  string           name                     = 3;
+  DeploymentStatus status                   = 4;
+
+  // Snapshot of the composition graph at deploy time.
+  string composition_snapshot_json = 5;  // Opaque JSON — owned by COMPOSITION_ENGINE
+
+  string config_profile_id = 6;
+
+  string started_by     = 7;
+  string status_message = 8;
+
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp updated_at = 10;
+
+  reserved 11;
+
+  string domain_id = 12;
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REQUEST / RESPONSE — Project
+// ─────────────────────────────────────────────────────────────────────────────
+
+message CreateProjectRequest {
+  string org_id      = 1;
+  string name        = 2;
+  string slug        = 3;
+  string description = 4;
+}
+
+message CreateProjectResponse {
+  Project project = 1;
+}
+
+message GetProjectRequest {
+  string project_id = 1;
+  string org_id     = 2;
+}
+
+message GetProjectResponse {
+  Project project = 1;
+}
+
+message UpdateProjectRequest {
+  string                    project_id  = 1;
+  string                    org_id      = 2;
+  Project                   project     = 3;
+  google.protobuf.FieldMask update_mask = 4;
+}
+
+message UpdateProjectResponse {
+  Project project = 1;
+}
+
+message ArchiveProjectRequest {
+  string project_id = 1;
+  string org_id     = 2;
+}
+
+message DeleteProjectRequest {
+  string project_id  = 1;
+  string org_id      = 2;
+  bool   hard_delete = 3;
+}
+
+message ListProjectsRequest {
+  string        org_id        = 1;
+  string        page_token    = 2;
+  int32         page_size     = 3;  // Max 50
+  ProjectStatus status_filter = 4;
+  string        search_query  = 5;
+}
+
+message ListProjectsResponse {
+  repeated Project projects = 1;
+  string next_page_token    = 2;
+  int32  total_count        = 3;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REQUEST / RESPONSE — Variables
+// ─────────────────────────────────────────────────────────────────────────────
+
+message SetVariableRequest {
+  string       project_id = 1;
+  string       org_id     = 2;
+  string       key        = 3;
+  string       value      = 4;
+  VariableType type       = 5;
+  // Upsert semantics: creates if absent, updates if key exists
+}
+
+message SetVariableResponse {
+  Variable variable = 1;
+}
+
+message DeleteVariableRequest {
+  string project_id = 1;
+  string org_id     = 2;
+  string key        = 3;
+}
+
+message ListVariablesRequest {
+  string project_id = 1;
+  string org_id     = 2;
+  // SECRET values are never returned — only key and type
+}
+
+message ListVariablesResponse {
+  repeated Variable variables = 1;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REQUEST / RESPONSE — Deployments
+// ─────────────────────────────────────────────────────────────────────────────
+
+message TriggerDeploymentRequest {
+  string project_id       = 1;
+  string org_id           = 2;
+  string brick_id         = 3;
+  string config_profile_id = 4;
+}
+
+message TriggerDeploymentResponse {
+  Deployment deployment = 1;
+  // Deployment starts asynchronously. Poll via GetDeployment or stream via WatchDeployment.
+}
+
+message GetDeploymentRequest {
+  string deployment_id = 1;
+  string project_id    = 2;
+  string org_id        = 3;
+}
+
+message GetDeploymentResponse {
+  Deployment deployment = 1;
+}
+
+message CancelDeploymentRequest {
+  string deployment_id = 1;
+  string project_id    = 2;
+  string org_id        = 3;
+}
+
+message ListDeploymentsRequest {
+  string           project_id    = 1;
+  string           org_id        = 2;
+  string           page_token    = 3;
+  int32            page_size     = 4;  // Max 50
+  DeploymentStatus status_filter = 5;
+}
+
+message ListDeploymentsResponse {
+  repeated Deployment deployments = 1;
+  string next_page_token          = 2;
+  int32  total_count              = 3;
+}
+
+message WatchDeploymentRequest {
+  string deployment_id = 1;
+  string project_id    = 2;
+  string org_id        = 3;
+}
+
+message WatchDeploymentResponse {
+  Deployment deployment  = 1;
+  bool       is_terminal = 2;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// EVENTS — Published on NATS JetStream
+// Subject pattern: aevo.project_service.v1.<event_type>
+// ─────────────────────────────────────────────────────────────────────────────
+
+message EventMetadata {
+  string event_id       = 1;
+  string event_type     = 2;
+  string source_service = 3;
+  string correlation_id = 4;
+  google.protobuf.Timestamp occurred_at = 5;
+}
+
+message ProjectCreatedEvent {
+  EventMetadata metadata = 1;
+  Project       project  = 2;
+}
+
+message ProjectArchivedEvent {
+  EventMetadata metadata            = 1;
+  string        project_id          = 2;
+  string        org_id              = 3;
+  string        archived_by_user_id = 4;
+}
+
+message ProjectDeletedEvent {
+  EventMetadata metadata   = 1;
+  string        project_id = 2;
+  string        org_id     = 3;
+  bool          hard_delete = 4;
+}
+
+// Consumed by COMPOSITION_ENGINE and PROVIDER_SERVICE.
+message DeploymentTriggeredEvent {
+  EventMetadata metadata   = 1;
+  Deployment    deployment = 2;
+  Project       project    = 3;
+  // Variables are NOT in the event — COMPOSITION_ENGINE fetches them
+  // from PROJECT_SERVICE via gRPC on a secure channel, not via the bus.
+}
+
+message DeploymentStatusChangedEvent {
+  EventMetadata    metadata      = 1;
+  string           deployment_id = 2;
+  string           project_id    = 3;
+  string           org_id        = 4;
+  DeploymentStatus old_status    = 5;
+  DeploymentStatus new_status    = 6;
+  string           message       = 7;
+}
+
+// Consumed by BILLING_SERVICE for resource usage tracking.
+message DeploymentCompletedEvent {
+  EventMetadata metadata   = 1;
+  Deployment    deployment = 2;
+  Project       project    = 3;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SERVICE DEFINITIONS
+// ─────────────────────────────────────────────────────────────────────────────
+
+service ProjectService {
+
+  // --- Project CRUD ---
+  rpc CreateProject  (CreateProjectRequest)  returns (CreateProjectResponse);
+  rpc GetProject     (GetProjectRequest)     returns (GetProjectResponse);
+  rpc UpdateProject  (UpdateProjectRequest)  returns (UpdateProjectResponse);
+  rpc ArchiveProject (ArchiveProjectRequest) returns (google.protobuf.Empty);
+  rpc DeleteProject  (DeleteProjectRequest)  returns (google.protobuf.Empty);
+  rpc ListProjects   (ListProjectsRequest)   returns (ListProjectsResponse);
+
+  // --- Variables (scoped to project) ---
+  rpc SetVariable    (SetVariableRequest)    returns (SetVariableResponse);
+  rpc DeleteVariable (DeleteVariableRequest) returns (google.protobuf.Empty);
+  rpc ListVariables  (ListVariablesRequest)  returns (ListVariablesResponse);
+}
+
+service DeploymentService {
+
+  // --- Deployment lifecycle ---
+  rpc TriggerDeployment (TriggerDeploymentRequest) returns (TriggerDeploymentResponse);
+  rpc GetDeployment     (GetDeploymentRequest)     returns (GetDeploymentResponse);
+  rpc CancelDeployment  (CancelDeploymentRequest)  returns (google.protobuf.Empty);
+  rpc ListDeployments   (ListDeploymentsRequest)   returns (ListDeploymentsResponse);
+
+  // --- Streaming (FE progress bar) ---
+  rpc WatchDeployment (WatchDeploymentRequest) returns (stream WatchDeploymentResponse);
+}
