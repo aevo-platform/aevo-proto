@@ -4,7 +4,7 @@
 // 	protoc        v6.33.2
 // source: org_manager.proto
 
-package org_managerv1
+package org_manager1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -3830,8 +3830,8 @@ const file_org_manager_proto_rawDesc = "" +
 	"\vDeleteGroup\x12'.aevo.org_manager.v1.DeleteGroupRequest\x1a\x16.google.protobuf.Empty\x12i\n" +
 	"\x0eAddGroupMember\x12*.aevo.org_manager.v1.AddGroupMemberRequest\x1a+.aevo.org_manager.v1.AddGroupMemberResponse\x12Z\n" +
 	"\x11RemoveGroupMember\x12-.aevo.org_manager.v1.RemoveGroupMemberRequest\x1a\x16.google.protobuf.Empty\x12o\n" +
-	"\x10ListGroupMembers\x12,.aevo.org_manager.v1.ListGroupMembersRequest\x1a-.aevo.org_manager.v1.ListGroupMembersResponseB[\n" +
-	"\x16io.aevo.org_manager.v1P\x01Z?github.com/aevo/org-manager/gen/go/org_manager/v1;org_managerv1b\x06proto3"
+	"\x10ListGroupMembers\x12,.aevo.org_manager.v1.ListGroupMembersRequest\x1a-.aevo.org_manager.v1.ListGroupMembersResponseBX\n" +
+	"\x16io.aevo.org_manager.v1P\x01Z<github.com/aevo-platform/org-manager/gen/org/v1;org_manager1b\x06proto3"
 
 var (
 	file_org_manager_proto_rawDescOnce sync.Once

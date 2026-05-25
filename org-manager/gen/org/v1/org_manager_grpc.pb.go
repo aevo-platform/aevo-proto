@@ -4,7 +4,7 @@
 // - protoc             v6.33.2
 // source: org_manager.proto
 
-package org_managerv1
+package org_manager1
 
 import (
 	context "context"

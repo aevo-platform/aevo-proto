@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package aevo.project_service.v1;
 
-option go_package = "github.com/aevo/project-service/gen/go/project_service/v1;project_servicev1";
+option go_package = "github.com/aevo-platform/project-manager/gen/project/v1;project_manager1";
 option java_multiple_files = true;
 option java_package = "io.aevo.project_service.v1";
 
