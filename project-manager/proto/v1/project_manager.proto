@@ -110,7 +110,6 @@ message CreateProjectResponse {
 
 message GetProjectRequest {
   string project_id = 1;
-  string org_id     = 2;
 }
 
 message GetProjectResponse {
@@ -119,9 +118,8 @@ message GetProjectResponse {
 
 message UpdateProjectRequest {
   string                    project_id  = 1;
-  string                    org_id      = 2;
-  Project                   project     = 3;
-  google.protobuf.FieldMask update_mask = 4;
+  Project                   project     = 2;
+  google.protobuf.FieldMask update_mask = 3;
 }
 
 message UpdateProjectResponse {
@@ -130,13 +128,10 @@ message UpdateProjectResponse {
 
 message ArchiveProjectRequest {
   string project_id = 1;
-  string org_id     = 2;
 }
 
 message DeleteProjectRequest {
   string project_id  = 1;
-  string org_id      = 2;
-  bool   hard_delete = 3;
 }
 
 message ListProjectsRequest {
@@ -159,10 +154,9 @@ message ListProjectsResponse {
 
 message SetVariableRequest {
   string       project_id = 1;
-  string       org_id     = 2;
-  string       key        = 3;
-  string       value      = 4;
-  VariableType type       = 5;
+  string       key        = 2;
+  string       value      = 3;
+  VariableType type       = 4;
   // Upsert semantics: creates if absent, updates if key exists
 }
 
@@ -172,13 +166,11 @@ message SetVariableResponse {
 
 message DeleteVariableRequest {
   string project_id = 1;
-  string org_id     = 2;
-  string key        = 3;
+  string key        = 2;
 }
 
 message ListVariablesRequest {
   string project_id = 1;
-  string org_id     = 2;
   // SECRET values are never returned — only key and type
 }
 
@@ -191,10 +183,9 @@ message ListVariablesResponse {
 // ─────────────────────────────────────────────────────────────────────────────
 
 message TriggerDeploymentRequest {
-  string project_id       = 1;
-  string org_id           = 2;
-  string brick_id         = 3;
-  string config_profile_id = 4;
+  string project_id        = 1;
+  string brick_id          = 2;
+  string config_profile_id = 3;
 }
 
 message TriggerDeploymentResponse {
@@ -204,8 +195,6 @@ message TriggerDeploymentResponse {
 
 message GetDeploymentRequest {
   string deployment_id = 1;
-  string project_id    = 2;
-  string org_id        = 3;
 }
 
 message GetDeploymentResponse {
@@ -214,16 +203,13 @@ message GetDeploymentResponse {
 
 message CancelDeploymentRequest {
   string deployment_id = 1;
-  string project_id    = 2;
-  string org_id        = 3;
 }
 
 message ListDeploymentsRequest {
   string           project_id    = 1;
-  string           org_id        = 2;
-  string           page_token    = 3;
-  int32            page_size     = 4;  // Max 50
-  DeploymentStatus status_filter = 5;
+  string           page_token    = 2;
+  int32            page_size     = 3;  // Max 50
+  DeploymentStatus status_filter = 4;
 }
 
 message ListDeploymentsResponse {
@@ -234,8 +220,6 @@ message ListDeploymentsResponse {
 
 message WatchDeploymentRequest {
   string deployment_id = 1;
-  string project_id    = 2;
-  string org_id        = 3;
 }
 
 message WatchDeploymentResponse {

@@ -635,7 +635,6 @@ func (x *CreateProjectResponse) GetProject() *Project {
 type GetProjectRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	OrgId         string                 `protobuf:"bytes,2,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -673,13 +672,6 @@ func (*GetProjectRequest) Descriptor() ([]byte, []int) {
 func (x *GetProjectRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
-	}
-	return ""
-}
-
-func (x *GetProjectRequest) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
 	}
 	return ""
 }
@@ -731,9 +723,8 @@ func (x *GetProjectResponse) GetProject() *Project {
 type UpdateProjectRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	OrgId         string                 `protobuf:"bytes,2,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
-	Project       *Project               `protobuf:"bytes,3,opt,name=project,proto3" json:"project,omitempty"`
-	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,4,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
+	Project       *Project               `protobuf:"bytes,2,opt,name=project,proto3" json:"project,omitempty"`
+	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,3,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -771,13 +762,6 @@ func (*UpdateProjectRequest) Descriptor() ([]byte, []int) {
 func (x *UpdateProjectRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
-	}
-	return ""
-}
-
-func (x *UpdateProjectRequest) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
 	}
 	return ""
 }
@@ -843,7 +827,6 @@ func (x *UpdateProjectResponse) GetProject() *Project {
 type ArchiveProjectRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	OrgId         string                 `protobuf:"bytes,2,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -885,18 +868,9 @@ func (x *ArchiveProjectRequest) GetProjectId() string {
 	return ""
 }
 
-func (x *ArchiveProjectRequest) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
-	}
-	return ""
-}
-
 type DeleteProjectRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	OrgId         string                 `protobuf:"bytes,2,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
-	HardDelete    bool                   `protobuf:"varint,3,opt,name=hard_delete,json=hardDelete,proto3" json:"hard_delete,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -936,20 +910,6 @@ func (x *DeleteProjectRequest) GetProjectId() string {
 		return x.ProjectId
 	}
 	return ""
-}
-
-func (x *DeleteProjectRequest) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
-	}
-	return ""
-}
-
-func (x *DeleteProjectRequest) GetHardDelete() bool {
-	if x != nil {
-		return x.HardDelete
-	}
-	return false
 }
 
 type ListProjectsRequest struct {
@@ -1091,10 +1051,9 @@ func (x *ListProjectsResponse) GetTotalCount() int32 {
 type SetVariableRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	OrgId         string                 `protobuf:"bytes,2,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
-	Key           string                 `protobuf:"bytes,3,opt,name=key,proto3" json:"key,omitempty"`
-	Value         string                 `protobuf:"bytes,4,opt,name=value,proto3" json:"value,omitempty"`
-	Type          VariableType           `protobuf:"varint,5,opt,name=type,proto3,enum=aevo.project_service.v1.VariableType" json:"type,omitempty"` // Upsert semantics: creates if absent, updates if key exists
+	Key           string                 `protobuf:"bytes,2,opt,name=key,proto3" json:"key,omitempty"`
+	Value         string                 `protobuf:"bytes,3,opt,name=value,proto3" json:"value,omitempty"`
+	Type          VariableType           `protobuf:"varint,4,opt,name=type,proto3,enum=aevo.project_service.v1.VariableType" json:"type,omitempty"` // Upsert semantics: creates if absent, updates if key exists
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1132,13 +1091,6 @@ func (*SetVariableRequest) Descriptor() ([]byte, []int) {
 func (x *SetVariableRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
-	}
-	return ""
-}
-
-func (x *SetVariableRequest) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
 	}
 	return ""
 }
@@ -1211,8 +1163,7 @@ func (x *SetVariableResponse) GetVariable() *Variable {
 type DeleteVariableRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	OrgId         string                 `protobuf:"bytes,2,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
-	Key           string                 `protobuf:"bytes,3,opt,name=key,proto3" json:"key,omitempty"`
+	Key           string                 `protobuf:"bytes,2,opt,name=key,proto3" json:"key,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1254,13 +1205,6 @@ func (x *DeleteVariableRequest) GetProjectId() string {
 	return ""
 }
 
-func (x *DeleteVariableRequest) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
-	}
-	return ""
-}
-
 func (x *DeleteVariableRequest) GetKey() string {
 	if x != nil {
 		return x.Key
@@ -1270,8 +1214,7 @@ func (x *DeleteVariableRequest) GetKey() string {
 
 type ListVariablesRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	OrgId         string                 `protobuf:"bytes,2,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"` // SECRET values are never returned — only key and type
+	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"` // SECRET values are never returned — only key and type
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1309,13 +1252,6 @@ func (*ListVariablesRequest) Descriptor() ([]byte, []int) {
 func (x *ListVariablesRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
-	}
-	return ""
-}
-
-func (x *ListVariablesRequest) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
 	}
 	return ""
 }
@@ -1367,9 +1303,8 @@ func (x *ListVariablesResponse) GetVariables() []*Variable {
 type TriggerDeploymentRequest struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	ProjectId       string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	OrgId           string                 `protobuf:"bytes,2,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
-	BrickId         string                 `protobuf:"bytes,3,opt,name=brick_id,json=brickId,proto3" json:"brick_id,omitempty"`
-	ConfigProfileId string                 `protobuf:"bytes,4,opt,name=config_profile_id,json=configProfileId,proto3" json:"config_profile_id,omitempty"`
+	BrickId         string                 `protobuf:"bytes,2,opt,name=brick_id,json=brickId,proto3" json:"brick_id,omitempty"`
+	ConfigProfileId string                 `protobuf:"bytes,3,opt,name=config_profile_id,json=configProfileId,proto3" json:"config_profile_id,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -1407,13 +1342,6 @@ func (*TriggerDeploymentRequest) Descriptor() ([]byte, []int) {
 func (x *TriggerDeploymentRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
-	}
-	return ""
-}
-
-func (x *TriggerDeploymentRequest) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
 	}
 	return ""
 }
@@ -1479,8 +1407,6 @@ func (x *TriggerDeploymentResponse) GetDeployment() *Deployment {
 type GetDeploymentRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	DeploymentId  string                 `protobuf:"bytes,1,opt,name=deployment_id,json=deploymentId,proto3" json:"deployment_id,omitempty"`
-	ProjectId     string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	OrgId         string                 `protobuf:"bytes,3,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1518,20 +1444,6 @@ func (*GetDeploymentRequest) Descriptor() ([]byte, []int) {
 func (x *GetDeploymentRequest) GetDeploymentId() string {
 	if x != nil {
 		return x.DeploymentId
-	}
-	return ""
-}
-
-func (x *GetDeploymentRequest) GetProjectId() string {
-	if x != nil {
-		return x.ProjectId
-	}
-	return ""
-}
-
-func (x *GetDeploymentRequest) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
 	}
 	return ""
 }
@@ -1583,8 +1495,6 @@ func (x *GetDeploymentResponse) GetDeployment() *Deployment {
 type CancelDeploymentRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	DeploymentId  string                 `protobuf:"bytes,1,opt,name=deployment_id,json=deploymentId,proto3" json:"deployment_id,omitempty"`
-	ProjectId     string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	OrgId         string                 `protobuf:"bytes,3,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1626,27 +1536,12 @@ func (x *CancelDeploymentRequest) GetDeploymentId() string {
 	return ""
 }
 
-func (x *CancelDeploymentRequest) GetProjectId() string {
-	if x != nil {
-		return x.ProjectId
-	}
-	return ""
-}
-
-func (x *CancelDeploymentRequest) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
-	}
-	return ""
-}
-
 type ListDeploymentsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	OrgId         string                 `protobuf:"bytes,2,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
-	PageToken     string                 `protobuf:"bytes,3,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
-	PageSize      int32                  `protobuf:"varint,4,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"` // Max 50
-	StatusFilter  DeploymentStatus       `protobuf:"varint,5,opt,name=status_filter,json=statusFilter,proto3,enum=aevo.project_service.v1.DeploymentStatus" json:"status_filter,omitempty"`
+	PageToken     string                 `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
+	PageSize      int32                  `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"` // Max 50
+	StatusFilter  DeploymentStatus       `protobuf:"varint,4,opt,name=status_filter,json=statusFilter,proto3,enum=aevo.project_service.v1.DeploymentStatus" json:"status_filter,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1684,13 +1579,6 @@ func (*ListDeploymentsRequest) Descriptor() ([]byte, []int) {
 func (x *ListDeploymentsRequest) GetProjectId() string {
 	if x != nil {
 		return x.ProjectId
-	}
-	return ""
-}
-
-func (x *ListDeploymentsRequest) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
 	}
 	return ""
 }
@@ -1779,8 +1667,6 @@ func (x *ListDeploymentsResponse) GetTotalCount() int32 {
 type WatchDeploymentRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	DeploymentId  string                 `protobuf:"bytes,1,opt,name=deployment_id,json=deploymentId,proto3" json:"deployment_id,omitempty"`
-	ProjectId     string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	OrgId         string                 `protobuf:"bytes,3,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1818,20 +1704,6 @@ func (*WatchDeploymentRequest) Descriptor() ([]byte, []int) {
 func (x *WatchDeploymentRequest) GetDeploymentId() string {
 	if x != nil {
 		return x.DeploymentId
-	}
-	return ""
-}
-
-func (x *WatchDeploymentRequest) GetProjectId() string {
-	if x != nil {
-		return x.ProjectId
-	}
-	return ""
-}
-
-func (x *WatchDeploymentRequest) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
 	}
 	return ""
 }
@@ -2423,32 +2295,26 @@ const file_project_manager_proto_rawDesc = "" +
 	"\x04slug\x18\x03 \x01(\tR\x04slug\x12 \n" +
 	"\vdescription\x18\x04 \x01(\tR\vdescription\"S\n" +
 	"\x15CreateProjectResponse\x12:\n" +
-	"\aproject\x18\x01 \x01(\v2 .aevo.project_service.v1.ProjectR\aproject\"I\n" +
+	"\aproject\x18\x01 \x01(\v2 .aevo.project_service.v1.ProjectR\aproject\"2\n" +
 	"\x11GetProjectRequest\x12\x1d\n" +
 	"\n" +
-	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x15\n" +
-	"\x06org_id\x18\x02 \x01(\tR\x05orgId\"P\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\"P\n" +
 	"\x12GetProjectResponse\x12:\n" +
-	"\aproject\x18\x01 \x01(\v2 .aevo.project_service.v1.ProjectR\aproject\"\xc5\x01\n" +
+	"\aproject\x18\x01 \x01(\v2 .aevo.project_service.v1.ProjectR\aproject\"\xae\x01\n" +
 	"\x14UpdateProjectRequest\x12\x1d\n" +
 	"\n" +
-	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x15\n" +
-	"\x06org_id\x18\x02 \x01(\tR\x05orgId\x12:\n" +
-	"\aproject\x18\x03 \x01(\v2 .aevo.project_service.v1.ProjectR\aproject\x12;\n" +
-	"\vupdate_mask\x18\x04 \x01(\v2\x1a.google.protobuf.FieldMaskR\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\x12:\n" +
+	"\aproject\x18\x02 \x01(\v2 .aevo.project_service.v1.ProjectR\aproject\x12;\n" +
+	"\vupdate_mask\x18\x03 \x01(\v2\x1a.google.protobuf.FieldMaskR\n" +
 	"updateMask\"S\n" +
 	"\x15UpdateProjectResponse\x12:\n" +
-	"\aproject\x18\x01 \x01(\v2 .aevo.project_service.v1.ProjectR\aproject\"M\n" +
+	"\aproject\x18\x01 \x01(\v2 .aevo.project_service.v1.ProjectR\aproject\"6\n" +
 	"\x15ArchiveProjectRequest\x12\x1d\n" +
 	"\n" +
-	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x15\n" +
-	"\x06org_id\x18\x02 \x01(\tR\x05orgId\"m\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\"5\n" +
 	"\x14DeleteProjectRequest\x12\x1d\n" +
 	"\n" +
-	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x15\n" +
-	"\x06org_id\x18\x02 \x01(\tR\x05orgId\x12\x1f\n" +
-	"\vhard_delete\x18\x03 \x01(\bR\n" +
-	"hardDelete\"\xd8\x01\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\"\xd8\x01\n" +
 	"\x13ListProjectsRequest\x12\x15\n" +
 	"\x06org_id\x18\x01 \x01(\tR\x05orgId\x12\x1d\n" +
 	"\n" +
@@ -2460,69 +2326,55 @@ const file_project_manager_proto_rawDesc = "" +
 	"\bprojects\x18\x01 \x03(\v2 .aevo.project_service.v1.ProjectR\bprojects\x12&\n" +
 	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\x12\x1f\n" +
 	"\vtotal_count\x18\x03 \x01(\x05R\n" +
-	"totalCount\"\xad\x01\n" +
+	"totalCount\"\x96\x01\n" +
 	"\x12SetVariableRequest\x12\x1d\n" +
 	"\n" +
-	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x15\n" +
-	"\x06org_id\x18\x02 \x01(\tR\x05orgId\x12\x10\n" +
-	"\x03key\x18\x03 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x04 \x01(\tR\x05value\x129\n" +
-	"\x04type\x18\x05 \x01(\x0e2%.aevo.project_service.v1.VariableTypeR\x04type\"T\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x10\n" +
+	"\x03key\x18\x02 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x03 \x01(\tR\x05value\x129\n" +
+	"\x04type\x18\x04 \x01(\x0e2%.aevo.project_service.v1.VariableTypeR\x04type\"T\n" +
 	"\x13SetVariableResponse\x12=\n" +
-	"\bvariable\x18\x01 \x01(\v2!.aevo.project_service.v1.VariableR\bvariable\"_\n" +
+	"\bvariable\x18\x01 \x01(\v2!.aevo.project_service.v1.VariableR\bvariable\"H\n" +
 	"\x15DeleteVariableRequest\x12\x1d\n" +
 	"\n" +
-	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x15\n" +
-	"\x06org_id\x18\x02 \x01(\tR\x05orgId\x12\x10\n" +
-	"\x03key\x18\x03 \x01(\tR\x03key\"L\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x10\n" +
+	"\x03key\x18\x02 \x01(\tR\x03key\"5\n" +
 	"\x14ListVariablesRequest\x12\x1d\n" +
 	"\n" +
-	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x15\n" +
-	"\x06org_id\x18\x02 \x01(\tR\x05orgId\"X\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\"X\n" +
 	"\x15ListVariablesResponse\x12?\n" +
-	"\tvariables\x18\x01 \x03(\v2!.aevo.project_service.v1.VariableR\tvariables\"\x97\x01\n" +
+	"\tvariables\x18\x01 \x03(\v2!.aevo.project_service.v1.VariableR\tvariables\"\x80\x01\n" +
 	"\x18TriggerDeploymentRequest\x12\x1d\n" +
 	"\n" +
-	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x15\n" +
-	"\x06org_id\x18\x02 \x01(\tR\x05orgId\x12\x19\n" +
-	"\bbrick_id\x18\x03 \x01(\tR\abrickId\x12*\n" +
-	"\x11config_profile_id\x18\x04 \x01(\tR\x0fconfigProfileId\"`\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x19\n" +
+	"\bbrick_id\x18\x02 \x01(\tR\abrickId\x12*\n" +
+	"\x11config_profile_id\x18\x03 \x01(\tR\x0fconfigProfileId\"`\n" +
 	"\x19TriggerDeploymentResponse\x12C\n" +
 	"\n" +
 	"deployment\x18\x01 \x01(\v2#.aevo.project_service.v1.DeploymentR\n" +
-	"deployment\"q\n" +
+	"deployment\";\n" +
 	"\x14GetDeploymentRequest\x12#\n" +
-	"\rdeployment_id\x18\x01 \x01(\tR\fdeploymentId\x12\x1d\n" +
-	"\n" +
-	"project_id\x18\x02 \x01(\tR\tprojectId\x12\x15\n" +
-	"\x06org_id\x18\x03 \x01(\tR\x05orgId\"\\\n" +
+	"\rdeployment_id\x18\x01 \x01(\tR\fdeploymentId\"\\\n" +
 	"\x15GetDeploymentResponse\x12C\n" +
 	"\n" +
 	"deployment\x18\x01 \x01(\v2#.aevo.project_service.v1.DeploymentR\n" +
-	"deployment\"t\n" +
+	"deployment\">\n" +
 	"\x17CancelDeploymentRequest\x12#\n" +
-	"\rdeployment_id\x18\x01 \x01(\tR\fdeploymentId\x12\x1d\n" +
-	"\n" +
-	"project_id\x18\x02 \x01(\tR\tprojectId\x12\x15\n" +
-	"\x06org_id\x18\x03 \x01(\tR\x05orgId\"\xda\x01\n" +
+	"\rdeployment_id\x18\x01 \x01(\tR\fdeploymentId\"\xc3\x01\n" +
 	"\x16ListDeploymentsRequest\x12\x1d\n" +
 	"\n" +
-	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x15\n" +
-	"\x06org_id\x18\x02 \x01(\tR\x05orgId\x12\x1d\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x1d\n" +
 	"\n" +
-	"page_token\x18\x03 \x01(\tR\tpageToken\x12\x1b\n" +
-	"\tpage_size\x18\x04 \x01(\x05R\bpageSize\x12N\n" +
-	"\rstatus_filter\x18\x05 \x01(\x0e2).aevo.project_service.v1.DeploymentStatusR\fstatusFilter\"\xa9\x01\n" +
+	"page_token\x18\x02 \x01(\tR\tpageToken\x12\x1b\n" +
+	"\tpage_size\x18\x03 \x01(\x05R\bpageSize\x12N\n" +
+	"\rstatus_filter\x18\x04 \x01(\x0e2).aevo.project_service.v1.DeploymentStatusR\fstatusFilter\"\xa9\x01\n" +
 	"\x17ListDeploymentsResponse\x12E\n" +
 	"\vdeployments\x18\x01 \x03(\v2#.aevo.project_service.v1.DeploymentR\vdeployments\x12&\n" +
 	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\x12\x1f\n" +
 	"\vtotal_count\x18\x03 \x01(\x05R\n" +
-	"totalCount\"s\n" +
+	"totalCount\"=\n" +
 	"\x16WatchDeploymentRequest\x12#\n" +
-	"\rdeployment_id\x18\x01 \x01(\tR\fdeploymentId\x12\x1d\n" +
-	"\n" +
-	"project_id\x18\x02 \x01(\tR\tprojectId\x12\x15\n" +
-	"\x06org_id\x18\x03 \x01(\tR\x05orgId\"\x7f\n" +
+	"\rdeployment_id\x18\x01 \x01(\tR\fdeploymentId\"\x7f\n" +
 	"\x17WatchDeploymentResponse\x12C\n" +
 	"\n" +
 	"deployment\x18\x01 \x01(\v2#.aevo.project_service.v1.DeploymentR\n" +
