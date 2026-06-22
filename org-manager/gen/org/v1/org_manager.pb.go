@@ -85,56 +85,6 @@ func (OrgRole) EnumDescriptor() ([]byte, []int) {
 	return file_org_manager_proto_rawDescGZIP(), []int{0}
 }
 
-// Ruolo di un membro all'interno di un Group.
-type GroupRole int32
-
-const (
-	GroupRole_GROUP_ROLE_UNSPECIFIED GroupRole = 0
-	GroupRole_GROUP_ROLE_MAINTAINER  GroupRole = 1 // Può aggiungere/rimuovere membri dal group
-	GroupRole_GROUP_ROLE_MEMBER      GroupRole = 2
-)
-
-// Enum value maps for GroupRole.
-var (
-	GroupRole_name = map[int32]string{
-		0: "GROUP_ROLE_UNSPECIFIED",
-		1: "GROUP_ROLE_MAINTAINER",
-		2: "GROUP_ROLE_MEMBER",
-	}
-	GroupRole_value = map[string]int32{
-		"GROUP_ROLE_UNSPECIFIED": 0,
-		"GROUP_ROLE_MAINTAINER":  1,
-		"GROUP_ROLE_MEMBER":      2,
-	}
-)
-
-func (x GroupRole) Enum() *GroupRole {
-	p := new(GroupRole)
-	*p = x
-	return p
-}
-
-func (x GroupRole) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (GroupRole) Descriptor() protoreflect.EnumDescriptor {
-	return file_org_manager_proto_enumTypes[1].Descriptor()
-}
-
-func (GroupRole) Type() protoreflect.EnumType {
-	return &file_org_manager_proto_enumTypes[1]
-}
-
-func (x GroupRole) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use GroupRole.Descriptor instead.
-func (GroupRole) EnumDescriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{1}
-}
-
 // Stato del ciclo di vita di una Organization.
 type OrgStatus int32
 
@@ -172,11 +122,11 @@ func (x OrgStatus) String() string {
 }
 
 func (OrgStatus) Descriptor() protoreflect.EnumDescriptor {
-	return file_org_manager_proto_enumTypes[2].Descriptor()
+	return file_org_manager_proto_enumTypes[1].Descriptor()
 }
 
 func (OrgStatus) Type() protoreflect.EnumType {
-	return &file_org_manager_proto_enumTypes[2]
+	return &file_org_manager_proto_enumTypes[1]
 }
 
 func (x OrgStatus) Number() protoreflect.EnumNumber {
@@ -185,66 +135,7 @@ func (x OrgStatus) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use OrgStatus.Descriptor instead.
 func (OrgStatus) EnumDescriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{2}
-}
-
-// Stato di un invito pendente.
-type InvitationStatus int32
-
-const (
-	InvitationStatus_INVITATION_STATUS_UNSPECIFIED InvitationStatus = 0
-	InvitationStatus_INVITATION_STATUS_PENDING     InvitationStatus = 1
-	InvitationStatus_INVITATION_STATUS_ACCEPTED    InvitationStatus = 2
-	InvitationStatus_INVITATION_STATUS_DECLINED    InvitationStatus = 3
-	InvitationStatus_INVITATION_STATUS_EXPIRED     InvitationStatus = 4
-	InvitationStatus_INVITATION_STATUS_REVOKED     InvitationStatus = 5
-)
-
-// Enum value maps for InvitationStatus.
-var (
-	InvitationStatus_name = map[int32]string{
-		0: "INVITATION_STATUS_UNSPECIFIED",
-		1: "INVITATION_STATUS_PENDING",
-		2: "INVITATION_STATUS_ACCEPTED",
-		3: "INVITATION_STATUS_DECLINED",
-		4: "INVITATION_STATUS_EXPIRED",
-		5: "INVITATION_STATUS_REVOKED",
-	}
-	InvitationStatus_value = map[string]int32{
-		"INVITATION_STATUS_UNSPECIFIED": 0,
-		"INVITATION_STATUS_PENDING":     1,
-		"INVITATION_STATUS_ACCEPTED":    2,
-		"INVITATION_STATUS_DECLINED":    3,
-		"INVITATION_STATUS_EXPIRED":     4,
-		"INVITATION_STATUS_REVOKED":     5,
-	}
-)
-
-func (x InvitationStatus) Enum() *InvitationStatus {
-	p := new(InvitationStatus)
-	*p = x
-	return p
-}
-
-func (x InvitationStatus) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (InvitationStatus) Descriptor() protoreflect.EnumDescriptor {
-	return file_org_manager_proto_enumTypes[3].Descriptor()
-}
-
-func (InvitationStatus) Type() protoreflect.EnumType {
-	return &file_org_manager_proto_enumTypes[3]
-}
-
-func (x InvitationStatus) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use InvitationStatus.Descriptor instead.
-func (InvitationStatus) EnumDescriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{3}
+	return file_org_manager_proto_rawDescGZIP(), []int{1}
 }
 
 // Organization: tenant principale. Tutti gli altri oggetti vi appartengono.
@@ -536,286 +427,6 @@ func (x *OrgMember) GetLastSeenAt() *timestamppb.Timestamp {
 	return nil
 }
 
-// Group: sottogruppo logico di una Organization.
-// Utile per assegnare permessi a livello di progetto per un gruppo.
-type Group struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	OrgId         string                 `protobuf:"bytes,1,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
-	GroupId       string                 `protobuf:"bytes,2,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"` // UUID v7
-	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
-	Labels        map[string]string      `protobuf:"bytes,5,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *Group) Reset() {
-	*x = Group{}
-	mi := &file_org_manager_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *Group) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Group) ProtoMessage() {}
-
-func (x *Group) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Group.ProtoReflect.Descriptor instead.
-func (*Group) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *Group) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
-	}
-	return ""
-}
-
-func (x *Group) GetGroupId() string {
-	if x != nil {
-		return x.GroupId
-	}
-	return ""
-}
-
-func (x *Group) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *Group) GetDescription() string {
-	if x != nil {
-		return x.Description
-	}
-	return ""
-}
-
-func (x *Group) GetLabels() map[string]string {
-	if x != nil {
-		return x.Labels
-	}
-	return nil
-}
-
-func (x *Group) GetCreatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CreatedAt
-	}
-	return nil
-}
-
-func (x *Group) GetUpdatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.UpdatedAt
-	}
-	return nil
-}
-
-// Membership di un utente in un Group.
-type GroupMember struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	OrgId         string                 `protobuf:"bytes,1,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
-	GroupId       string                 `protobuf:"bytes,2,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
-	UserId        string                 `protobuf:"bytes,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Role          GroupRole              `protobuf:"varint,4,opt,name=role,proto3,enum=aevo.org_manager.v1.GroupRole" json:"role,omitempty"`
-	AddedAt       *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=added_at,json=addedAt,proto3" json:"added_at,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GroupMember) Reset() {
-	*x = GroupMember{}
-	mi := &file_org_manager_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GroupMember) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GroupMember) ProtoMessage() {}
-
-func (x *GroupMember) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[4]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GroupMember.ProtoReflect.Descriptor instead.
-func (*GroupMember) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *GroupMember) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
-	}
-	return ""
-}
-
-func (x *GroupMember) GetGroupId() string {
-	if x != nil {
-		return x.GroupId
-	}
-	return ""
-}
-
-func (x *GroupMember) GetUserId() string {
-	if x != nil {
-		return x.UserId
-	}
-	return ""
-}
-
-func (x *GroupMember) GetRole() GroupRole {
-	if x != nil {
-		return x.Role
-	}
-	return GroupRole_GROUP_ROLE_UNSPECIFIED
-}
-
-func (x *GroupMember) GetAddedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.AddedAt
-	}
-	return nil
-}
-
-// Invito a unirsi a una Organization.
-type Invitation struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	InvitationId  string                 `protobuf:"bytes,1,opt,name=invitation_id,json=invitationId,proto3" json:"invitation_id,omitempty"`
-	OrgId         string                 `protobuf:"bytes,2,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
-	Email         string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`                                 // Destinatario
-	Role          OrgRole                `protobuf:"varint,4,opt,name=role,proto3,enum=aevo.org_manager.v1.OrgRole" json:"role,omitempty"` // Ruolo che avrà all'accettazione
-	InvitedBy     string                 `protobuf:"bytes,5,opt,name=invited_by,json=invitedBy,proto3" json:"invited_by,omitempty"`        // user_id di chi ha invitato
-	Status        InvitationStatus       `protobuf:"varint,6,opt,name=status,proto3,enum=aevo.org_manager.v1.InvitationStatus" json:"status,omitempty"`
-	Token         string                 `protobuf:"bytes,7,opt,name=token,proto3" json:"token,omitempty"` // Token opaco per il link di accettazione (solo in risposta Create)
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	ExpiresAt     *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *Invitation) Reset() {
-	*x = Invitation{}
-	mi := &file_org_manager_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *Invitation) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Invitation) ProtoMessage() {}
-
-func (x *Invitation) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[5]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Invitation.ProtoReflect.Descriptor instead.
-func (*Invitation) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{5}
-}
-
-func (x *Invitation) GetInvitationId() string {
-	if x != nil {
-		return x.InvitationId
-	}
-	return ""
-}
-
-func (x *Invitation) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
-	}
-	return ""
-}
-
-func (x *Invitation) GetEmail() string {
-	if x != nil {
-		return x.Email
-	}
-	return ""
-}
-
-func (x *Invitation) GetRole() OrgRole {
-	if x != nil {
-		return x.Role
-	}
-	return OrgRole_ORG_ROLE_UNSPECIFIED
-}
-
-func (x *Invitation) GetInvitedBy() string {
-	if x != nil {
-		return x.InvitedBy
-	}
-	return ""
-}
-
-func (x *Invitation) GetStatus() InvitationStatus {
-	if x != nil {
-		return x.Status
-	}
-	return InvitationStatus_INVITATION_STATUS_UNSPECIFIED
-}
-
-func (x *Invitation) GetToken() string {
-	if x != nil {
-		return x.Token
-	}
-	return ""
-}
-
-func (x *Invitation) GetCreatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CreatedAt
-	}
-	return nil
-}
-
-func (x *Invitation) GetExpiresAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.ExpiresAt
-	}
-	return nil
-}
-
 type CreateOrganizationRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
@@ -828,7 +439,7 @@ type CreateOrganizationRequest struct {
 
 func (x *CreateOrganizationRequest) Reset() {
 	*x = CreateOrganizationRequest{}
-	mi := &file_org_manager_proto_msgTypes[6]
+	mi := &file_org_manager_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -840,7 +451,7 @@ func (x *CreateOrganizationRequest) String() string {
 func (*CreateOrganizationRequest) ProtoMessage() {}
 
 func (x *CreateOrganizationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[6]
+	mi := &file_org_manager_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -853,7 +464,7 @@ func (x *CreateOrganizationRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateOrganizationRequest.ProtoReflect.Descriptor instead.
 func (*CreateOrganizationRequest) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{6}
+	return file_org_manager_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *CreateOrganizationRequest) GetName() string {
@@ -893,7 +504,7 @@ type CreateOrganizationResponse struct {
 
 func (x *CreateOrganizationResponse) Reset() {
 	*x = CreateOrganizationResponse{}
-	mi := &file_org_manager_proto_msgTypes[7]
+	mi := &file_org_manager_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -905,7 +516,7 @@ func (x *CreateOrganizationResponse) String() string {
 func (*CreateOrganizationResponse) ProtoMessage() {}
 
 func (x *CreateOrganizationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[7]
+	mi := &file_org_manager_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -918,7 +529,7 @@ func (x *CreateOrganizationResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateOrganizationResponse.ProtoReflect.Descriptor instead.
 func (*CreateOrganizationResponse) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{7}
+	return file_org_manager_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CreateOrganizationResponse) GetOrganization() *Organization {
@@ -938,7 +549,7 @@ type GetOrganizationRequest struct {
 
 func (x *GetOrganizationRequest) Reset() {
 	*x = GetOrganizationRequest{}
-	mi := &file_org_manager_proto_msgTypes[8]
+	mi := &file_org_manager_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -950,7 +561,7 @@ func (x *GetOrganizationRequest) String() string {
 func (*GetOrganizationRequest) ProtoMessage() {}
 
 func (x *GetOrganizationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[8]
+	mi := &file_org_manager_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -963,7 +574,7 @@ func (x *GetOrganizationRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetOrganizationRequest.ProtoReflect.Descriptor instead.
 func (*GetOrganizationRequest) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{8}
+	return file_org_manager_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *GetOrganizationRequest) GetOrgId() string {
@@ -989,7 +600,7 @@ type GetOrganizationResponse struct {
 
 func (x *GetOrganizationResponse) Reset() {
 	*x = GetOrganizationResponse{}
-	mi := &file_org_manager_proto_msgTypes[9]
+	mi := &file_org_manager_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1001,7 +612,7 @@ func (x *GetOrganizationResponse) String() string {
 func (*GetOrganizationResponse) ProtoMessage() {}
 
 func (x *GetOrganizationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[9]
+	mi := &file_org_manager_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1014,7 +625,7 @@ func (x *GetOrganizationResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetOrganizationResponse.ProtoReflect.Descriptor instead.
 func (*GetOrganizationResponse) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{9}
+	return file_org_manager_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *GetOrganizationResponse) GetOrganization() *Organization {
@@ -1035,7 +646,7 @@ type UpdateOrganizationRequest struct {
 
 func (x *UpdateOrganizationRequest) Reset() {
 	*x = UpdateOrganizationRequest{}
-	mi := &file_org_manager_proto_msgTypes[10]
+	mi := &file_org_manager_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1047,7 +658,7 @@ func (x *UpdateOrganizationRequest) String() string {
 func (*UpdateOrganizationRequest) ProtoMessage() {}
 
 func (x *UpdateOrganizationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[10]
+	mi := &file_org_manager_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1060,7 +671,7 @@ func (x *UpdateOrganizationRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateOrganizationRequest.ProtoReflect.Descriptor instead.
 func (*UpdateOrganizationRequest) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{10}
+	return file_org_manager_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *UpdateOrganizationRequest) GetOrgId() string {
@@ -1093,7 +704,7 @@ type UpdateOrganizationResponse struct {
 
 func (x *UpdateOrganizationResponse) Reset() {
 	*x = UpdateOrganizationResponse{}
-	mi := &file_org_manager_proto_msgTypes[11]
+	mi := &file_org_manager_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1105,7 +716,7 @@ func (x *UpdateOrganizationResponse) String() string {
 func (*UpdateOrganizationResponse) ProtoMessage() {}
 
 func (x *UpdateOrganizationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[11]
+	mi := &file_org_manager_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1118,7 +729,7 @@ func (x *UpdateOrganizationResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateOrganizationResponse.ProtoReflect.Descriptor instead.
 func (*UpdateOrganizationResponse) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{11}
+	return file_org_manager_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *UpdateOrganizationResponse) GetOrganization() *Organization {
@@ -1138,7 +749,7 @@ type DeleteOrganizationRequest struct {
 
 func (x *DeleteOrganizationRequest) Reset() {
 	*x = DeleteOrganizationRequest{}
-	mi := &file_org_manager_proto_msgTypes[12]
+	mi := &file_org_manager_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1150,7 +761,7 @@ func (x *DeleteOrganizationRequest) String() string {
 func (*DeleteOrganizationRequest) ProtoMessage() {}
 
 func (x *DeleteOrganizationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[12]
+	mi := &file_org_manager_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1163,7 +774,7 @@ func (x *DeleteOrganizationRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteOrganizationRequest.ProtoReflect.Descriptor instead.
 func (*DeleteOrganizationRequest) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{12}
+	return file_org_manager_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *DeleteOrganizationRequest) GetOrgId() string {
@@ -1192,7 +803,7 @@ type ListOrganizationsRequest struct {
 
 func (x *ListOrganizationsRequest) Reset() {
 	*x = ListOrganizationsRequest{}
-	mi := &file_org_manager_proto_msgTypes[13]
+	mi := &file_org_manager_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1204,7 +815,7 @@ func (x *ListOrganizationsRequest) String() string {
 func (*ListOrganizationsRequest) ProtoMessage() {}
 
 func (x *ListOrganizationsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[13]
+	mi := &file_org_manager_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1217,7 +828,7 @@ func (x *ListOrganizationsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListOrganizationsRequest.ProtoReflect.Descriptor instead.
 func (*ListOrganizationsRequest) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{13}
+	return file_org_manager_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *ListOrganizationsRequest) GetPageToken() string {
@@ -1259,7 +870,7 @@ type ListOrganizationsResponse struct {
 
 func (x *ListOrganizationsResponse) Reset() {
 	*x = ListOrganizationsResponse{}
-	mi := &file_org_manager_proto_msgTypes[14]
+	mi := &file_org_manager_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1271,7 +882,7 @@ func (x *ListOrganizationsResponse) String() string {
 func (*ListOrganizationsResponse) ProtoMessage() {}
 
 func (x *ListOrganizationsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[14]
+	mi := &file_org_manager_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1284,7 +895,7 @@ func (x *ListOrganizationsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListOrganizationsResponse.ProtoReflect.Descriptor instead.
 func (*ListOrganizationsResponse) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{14}
+	return file_org_manager_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *ListOrganizationsResponse) GetOrganizations() []*Organization {
@@ -1318,7 +929,7 @@ type GetOrgMemberRequest struct {
 
 func (x *GetOrgMemberRequest) Reset() {
 	*x = GetOrgMemberRequest{}
-	mi := &file_org_manager_proto_msgTypes[15]
+	mi := &file_org_manager_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1330,7 +941,7 @@ func (x *GetOrgMemberRequest) String() string {
 func (*GetOrgMemberRequest) ProtoMessage() {}
 
 func (x *GetOrgMemberRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[15]
+	mi := &file_org_manager_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1343,7 +954,7 @@ func (x *GetOrgMemberRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetOrgMemberRequest.ProtoReflect.Descriptor instead.
 func (*GetOrgMemberRequest) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{15}
+	return file_org_manager_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *GetOrgMemberRequest) GetOrgId() string {
@@ -1369,7 +980,7 @@ type GetOrgMemberResponse struct {
 
 func (x *GetOrgMemberResponse) Reset() {
 	*x = GetOrgMemberResponse{}
-	mi := &file_org_manager_proto_msgTypes[16]
+	mi := &file_org_manager_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1381,7 +992,7 @@ func (x *GetOrgMemberResponse) String() string {
 func (*GetOrgMemberResponse) ProtoMessage() {}
 
 func (x *GetOrgMemberResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[16]
+	mi := &file_org_manager_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1394,7 +1005,7 @@ func (x *GetOrgMemberResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetOrgMemberResponse.ProtoReflect.Descriptor instead.
 func (*GetOrgMemberResponse) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{16}
+	return file_org_manager_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *GetOrgMemberResponse) GetMember() *OrgMember {
@@ -1416,7 +1027,7 @@ type ListOrgMembersRequest struct {
 
 func (x *ListOrgMembersRequest) Reset() {
 	*x = ListOrgMembersRequest{}
-	mi := &file_org_manager_proto_msgTypes[17]
+	mi := &file_org_manager_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1428,7 +1039,7 @@ func (x *ListOrgMembersRequest) String() string {
 func (*ListOrgMembersRequest) ProtoMessage() {}
 
 func (x *ListOrgMembersRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[17]
+	mi := &file_org_manager_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1441,7 +1052,7 @@ func (x *ListOrgMembersRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListOrgMembersRequest.ProtoReflect.Descriptor instead.
 func (*ListOrgMembersRequest) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{17}
+	return file_org_manager_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *ListOrgMembersRequest) GetOrgId() string {
@@ -1483,7 +1094,7 @@ type ListOrgMembersResponse struct {
 
 func (x *ListOrgMembersResponse) Reset() {
 	*x = ListOrgMembersResponse{}
-	mi := &file_org_manager_proto_msgTypes[18]
+	mi := &file_org_manager_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1495,7 +1106,7 @@ func (x *ListOrgMembersResponse) String() string {
 func (*ListOrgMembersResponse) ProtoMessage() {}
 
 func (x *ListOrgMembersResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[18]
+	mi := &file_org_manager_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1508,7 +1119,7 @@ func (x *ListOrgMembersResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListOrgMembersResponse.ProtoReflect.Descriptor instead.
 func (*ListOrgMembersResponse) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{18}
+	return file_org_manager_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *ListOrgMembersResponse) GetMembers() []*OrgMember {
@@ -1543,7 +1154,7 @@ type UpdateMemberRoleRequest struct {
 
 func (x *UpdateMemberRoleRequest) Reset() {
 	*x = UpdateMemberRoleRequest{}
-	mi := &file_org_manager_proto_msgTypes[19]
+	mi := &file_org_manager_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1555,7 +1166,7 @@ func (x *UpdateMemberRoleRequest) String() string {
 func (*UpdateMemberRoleRequest) ProtoMessage() {}
 
 func (x *UpdateMemberRoleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[19]
+	mi := &file_org_manager_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1568,7 +1179,7 @@ func (x *UpdateMemberRoleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateMemberRoleRequest.ProtoReflect.Descriptor instead.
 func (*UpdateMemberRoleRequest) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{19}
+	return file_org_manager_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *UpdateMemberRoleRequest) GetOrgId() string {
@@ -1601,7 +1212,7 @@ type UpdateMemberRoleResponse struct {
 
 func (x *UpdateMemberRoleResponse) Reset() {
 	*x = UpdateMemberRoleResponse{}
-	mi := &file_org_manager_proto_msgTypes[20]
+	mi := &file_org_manager_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1613,7 +1224,7 @@ func (x *UpdateMemberRoleResponse) String() string {
 func (*UpdateMemberRoleResponse) ProtoMessage() {}
 
 func (x *UpdateMemberRoleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[20]
+	mi := &file_org_manager_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1626,10 +1237,122 @@ func (x *UpdateMemberRoleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateMemberRoleResponse.ProtoReflect.Descriptor instead.
 func (*UpdateMemberRoleResponse) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{20}
+	return file_org_manager_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *UpdateMemberRoleResponse) GetMember() *OrgMember {
+	if x != nil {
+		return x.Member
+	}
+	return nil
+}
+
+type CreateOrgMemberRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	OrgId         string                 `protobuf:"bytes,1,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Email         string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
+	Role          OrgRole                `protobuf:"varint,4,opt,name=role,proto3,enum=aevo.org_manager.v1.OrgRole" json:"role,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateOrgMemberRequest) Reset() {
+	*x = CreateOrgMemberRequest{}
+	mi := &file_org_manager_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateOrgMemberRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateOrgMemberRequest) ProtoMessage() {}
+
+func (x *CreateOrgMemberRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_org_manager_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateOrgMemberRequest.ProtoReflect.Descriptor instead.
+func (*CreateOrgMemberRequest) Descriptor() ([]byte, []int) {
+	return file_org_manager_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *CreateOrgMemberRequest) GetOrgId() string {
+	if x != nil {
+		return x.OrgId
+	}
+	return ""
+}
+
+func (x *CreateOrgMemberRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *CreateOrgMemberRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *CreateOrgMemberRequest) GetRole() OrgRole {
+	if x != nil {
+		return x.Role
+	}
+	return OrgRole_ORG_ROLE_UNSPECIFIED
+}
+
+type CreateOrgMemberResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Member        *OrgMember             `protobuf:"bytes,1,opt,name=member,proto3" json:"member,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateOrgMemberResponse) Reset() {
+	*x = CreateOrgMemberResponse{}
+	mi := &file_org_manager_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateOrgMemberResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateOrgMemberResponse) ProtoMessage() {}
+
+func (x *CreateOrgMemberResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_org_manager_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateOrgMemberResponse.ProtoReflect.Descriptor instead.
+func (*CreateOrgMemberResponse) Descriptor() ([]byte, []int) {
+	return file_org_manager_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *CreateOrgMemberResponse) GetMember() *OrgMember {
 	if x != nil {
 		return x.Member
 	}
@@ -1646,7 +1369,7 @@ type RemoveMemberRequest struct {
 
 func (x *RemoveMemberRequest) Reset() {
 	*x = RemoveMemberRequest{}
-	mi := &file_org_manager_proto_msgTypes[21]
+	mi := &file_org_manager_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1658,7 +1381,7 @@ func (x *RemoveMemberRequest) String() string {
 func (*RemoveMemberRequest) ProtoMessage() {}
 
 func (x *RemoveMemberRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[21]
+	mi := &file_org_manager_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1671,7 +1394,7 @@ func (x *RemoveMemberRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RemoveMemberRequest.ProtoReflect.Descriptor instead.
 func (*RemoveMemberRequest) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{21}
+	return file_org_manager_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *RemoveMemberRequest) GetOrgId() string {
@@ -1684,1238 +1407,6 @@ func (x *RemoveMemberRequest) GetOrgId() string {
 func (x *RemoveMemberRequest) GetUserId() string {
 	if x != nil {
 		return x.UserId
-	}
-	return ""
-}
-
-type CreateGroupRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	OrgId         string                 `protobuf:"bytes,1,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	Labels        map[string]string      `protobuf:"bytes,4,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateGroupRequest) Reset() {
-	*x = CreateGroupRequest{}
-	mi := &file_org_manager_proto_msgTypes[22]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateGroupRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateGroupRequest) ProtoMessage() {}
-
-func (x *CreateGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[22]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateGroupRequest.ProtoReflect.Descriptor instead.
-func (*CreateGroupRequest) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{22}
-}
-
-func (x *CreateGroupRequest) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
-	}
-	return ""
-}
-
-func (x *CreateGroupRequest) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *CreateGroupRequest) GetDescription() string {
-	if x != nil {
-		return x.Description
-	}
-	return ""
-}
-
-func (x *CreateGroupRequest) GetLabels() map[string]string {
-	if x != nil {
-		return x.Labels
-	}
-	return nil
-}
-
-type CreateGroupResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Group         *Group                 `protobuf:"bytes,1,opt,name=group,proto3" json:"group,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateGroupResponse) Reset() {
-	*x = CreateGroupResponse{}
-	mi := &file_org_manager_proto_msgTypes[23]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateGroupResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateGroupResponse) ProtoMessage() {}
-
-func (x *CreateGroupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[23]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateGroupResponse.ProtoReflect.Descriptor instead.
-func (*CreateGroupResponse) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{23}
-}
-
-func (x *CreateGroupResponse) GetGroup() *Group {
-	if x != nil {
-		return x.Group
-	}
-	return nil
-}
-
-type GetGroupRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	OrgId         string                 `protobuf:"bytes,1,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
-	GroupId       string                 `protobuf:"bytes,2,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetGroupRequest) Reset() {
-	*x = GetGroupRequest{}
-	mi := &file_org_manager_proto_msgTypes[24]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetGroupRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetGroupRequest) ProtoMessage() {}
-
-func (x *GetGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[24]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetGroupRequest.ProtoReflect.Descriptor instead.
-func (*GetGroupRequest) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{24}
-}
-
-func (x *GetGroupRequest) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
-	}
-	return ""
-}
-
-func (x *GetGroupRequest) GetGroupId() string {
-	if x != nil {
-		return x.GroupId
-	}
-	return ""
-}
-
-type GetGroupResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Group         *Group                 `protobuf:"bytes,1,opt,name=group,proto3" json:"group,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetGroupResponse) Reset() {
-	*x = GetGroupResponse{}
-	mi := &file_org_manager_proto_msgTypes[25]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetGroupResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetGroupResponse) ProtoMessage() {}
-
-func (x *GetGroupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[25]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetGroupResponse.ProtoReflect.Descriptor instead.
-func (*GetGroupResponse) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{25}
-}
-
-func (x *GetGroupResponse) GetGroup() *Group {
-	if x != nil {
-		return x.Group
-	}
-	return nil
-}
-
-type ListGroupsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	OrgId         string                 `protobuf:"bytes,1,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
-	PageToken     string                 `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
-	PageSize      int32                  `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
-	UserId        string                 `protobuf:"bytes,4,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // Filtra i group a cui appartiene questo utente
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListGroupsRequest) Reset() {
-	*x = ListGroupsRequest{}
-	mi := &file_org_manager_proto_msgTypes[26]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListGroupsRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListGroupsRequest) ProtoMessage() {}
-
-func (x *ListGroupsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[26]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListGroupsRequest.ProtoReflect.Descriptor instead.
-func (*ListGroupsRequest) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{26}
-}
-
-func (x *ListGroupsRequest) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
-	}
-	return ""
-}
-
-func (x *ListGroupsRequest) GetPageToken() string {
-	if x != nil {
-		return x.PageToken
-	}
-	return ""
-}
-
-func (x *ListGroupsRequest) GetPageSize() int32 {
-	if x != nil {
-		return x.PageSize
-	}
-	return 0
-}
-
-func (x *ListGroupsRequest) GetUserId() string {
-	if x != nil {
-		return x.UserId
-	}
-	return ""
-}
-
-type ListGroupsResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Groups        []*Group               `protobuf:"bytes,1,rep,name=groups,proto3" json:"groups,omitempty"`
-	NextPageToken string                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	TotalCount    int32                  `protobuf:"varint,3,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListGroupsResponse) Reset() {
-	*x = ListGroupsResponse{}
-	mi := &file_org_manager_proto_msgTypes[27]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListGroupsResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListGroupsResponse) ProtoMessage() {}
-
-func (x *ListGroupsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[27]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListGroupsResponse.ProtoReflect.Descriptor instead.
-func (*ListGroupsResponse) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{27}
-}
-
-func (x *ListGroupsResponse) GetGroups() []*Group {
-	if x != nil {
-		return x.Groups
-	}
-	return nil
-}
-
-func (x *ListGroupsResponse) GetNextPageToken() string {
-	if x != nil {
-		return x.NextPageToken
-	}
-	return ""
-}
-
-func (x *ListGroupsResponse) GetTotalCount() int32 {
-	if x != nil {
-		return x.TotalCount
-	}
-	return 0
-}
-
-type UpdateGroupRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	OrgId         string                 `protobuf:"bytes,1,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
-	GroupId       string                 `protobuf:"bytes,2,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
-	Group         *Group                 `protobuf:"bytes,3,opt,name=group,proto3" json:"group,omitempty"`
-	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,4,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateGroupRequest) Reset() {
-	*x = UpdateGroupRequest{}
-	mi := &file_org_manager_proto_msgTypes[28]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateGroupRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateGroupRequest) ProtoMessage() {}
-
-func (x *UpdateGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[28]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateGroupRequest.ProtoReflect.Descriptor instead.
-func (*UpdateGroupRequest) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{28}
-}
-
-func (x *UpdateGroupRequest) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
-	}
-	return ""
-}
-
-func (x *UpdateGroupRequest) GetGroupId() string {
-	if x != nil {
-		return x.GroupId
-	}
-	return ""
-}
-
-func (x *UpdateGroupRequest) GetGroup() *Group {
-	if x != nil {
-		return x.Group
-	}
-	return nil
-}
-
-func (x *UpdateGroupRequest) GetUpdateMask() *fieldmaskpb.FieldMask {
-	if x != nil {
-		return x.UpdateMask
-	}
-	return nil
-}
-
-type UpdateGroupResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Group         *Group                 `protobuf:"bytes,1,opt,name=group,proto3" json:"group,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateGroupResponse) Reset() {
-	*x = UpdateGroupResponse{}
-	mi := &file_org_manager_proto_msgTypes[29]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateGroupResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateGroupResponse) ProtoMessage() {}
-
-func (x *UpdateGroupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[29]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateGroupResponse.ProtoReflect.Descriptor instead.
-func (*UpdateGroupResponse) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{29}
-}
-
-func (x *UpdateGroupResponse) GetGroup() *Group {
-	if x != nil {
-		return x.Group
-	}
-	return nil
-}
-
-type DeleteGroupRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	OrgId         string                 `protobuf:"bytes,1,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
-	GroupId       string                 `protobuf:"bytes,2,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteGroupRequest) Reset() {
-	*x = DeleteGroupRequest{}
-	mi := &file_org_manager_proto_msgTypes[30]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteGroupRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteGroupRequest) ProtoMessage() {}
-
-func (x *DeleteGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[30]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteGroupRequest.ProtoReflect.Descriptor instead.
-func (*DeleteGroupRequest) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{30}
-}
-
-func (x *DeleteGroupRequest) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
-	}
-	return ""
-}
-
-func (x *DeleteGroupRequest) GetGroupId() string {
-	if x != nil {
-		return x.GroupId
-	}
-	return ""
-}
-
-type AddGroupMemberRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	OrgId         string                 `protobuf:"bytes,1,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
-	GroupId       string                 `protobuf:"bytes,2,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
-	UserId        string                 `protobuf:"bytes,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Role          GroupRole              `protobuf:"varint,4,opt,name=role,proto3,enum=aevo.org_manager.v1.GroupRole" json:"role,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *AddGroupMemberRequest) Reset() {
-	*x = AddGroupMemberRequest{}
-	mi := &file_org_manager_proto_msgTypes[31]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *AddGroupMemberRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AddGroupMemberRequest) ProtoMessage() {}
-
-func (x *AddGroupMemberRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[31]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AddGroupMemberRequest.ProtoReflect.Descriptor instead.
-func (*AddGroupMemberRequest) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{31}
-}
-
-func (x *AddGroupMemberRequest) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
-	}
-	return ""
-}
-
-func (x *AddGroupMemberRequest) GetGroupId() string {
-	if x != nil {
-		return x.GroupId
-	}
-	return ""
-}
-
-func (x *AddGroupMemberRequest) GetUserId() string {
-	if x != nil {
-		return x.UserId
-	}
-	return ""
-}
-
-func (x *AddGroupMemberRequest) GetRole() GroupRole {
-	if x != nil {
-		return x.Role
-	}
-	return GroupRole_GROUP_ROLE_UNSPECIFIED
-}
-
-type AddGroupMemberResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Member        *GroupMember           `protobuf:"bytes,1,opt,name=member,proto3" json:"member,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *AddGroupMemberResponse) Reset() {
-	*x = AddGroupMemberResponse{}
-	mi := &file_org_manager_proto_msgTypes[32]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *AddGroupMemberResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AddGroupMemberResponse) ProtoMessage() {}
-
-func (x *AddGroupMemberResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[32]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AddGroupMemberResponse.ProtoReflect.Descriptor instead.
-func (*AddGroupMemberResponse) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{32}
-}
-
-func (x *AddGroupMemberResponse) GetMember() *GroupMember {
-	if x != nil {
-		return x.Member
-	}
-	return nil
-}
-
-type RemoveGroupMemberRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	OrgId         string                 `protobuf:"bytes,1,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
-	GroupId       string                 `protobuf:"bytes,2,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
-	UserId        string                 `protobuf:"bytes,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *RemoveGroupMemberRequest) Reset() {
-	*x = RemoveGroupMemberRequest{}
-	mi := &file_org_manager_proto_msgTypes[33]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *RemoveGroupMemberRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RemoveGroupMemberRequest) ProtoMessage() {}
-
-func (x *RemoveGroupMemberRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[33]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RemoveGroupMemberRequest.ProtoReflect.Descriptor instead.
-func (*RemoveGroupMemberRequest) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{33}
-}
-
-func (x *RemoveGroupMemberRequest) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
-	}
-	return ""
-}
-
-func (x *RemoveGroupMemberRequest) GetGroupId() string {
-	if x != nil {
-		return x.GroupId
-	}
-	return ""
-}
-
-func (x *RemoveGroupMemberRequest) GetUserId() string {
-	if x != nil {
-		return x.UserId
-	}
-	return ""
-}
-
-type ListGroupMembersRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	OrgId         string                 `protobuf:"bytes,1,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
-	GroupId       string                 `protobuf:"bytes,2,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
-	PageToken     string                 `protobuf:"bytes,3,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
-	PageSize      int32                  `protobuf:"varint,4,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListGroupMembersRequest) Reset() {
-	*x = ListGroupMembersRequest{}
-	mi := &file_org_manager_proto_msgTypes[34]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListGroupMembersRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListGroupMembersRequest) ProtoMessage() {}
-
-func (x *ListGroupMembersRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[34]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListGroupMembersRequest.ProtoReflect.Descriptor instead.
-func (*ListGroupMembersRequest) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{34}
-}
-
-func (x *ListGroupMembersRequest) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
-	}
-	return ""
-}
-
-func (x *ListGroupMembersRequest) GetGroupId() string {
-	if x != nil {
-		return x.GroupId
-	}
-	return ""
-}
-
-func (x *ListGroupMembersRequest) GetPageToken() string {
-	if x != nil {
-		return x.PageToken
-	}
-	return ""
-}
-
-func (x *ListGroupMembersRequest) GetPageSize() int32 {
-	if x != nil {
-		return x.PageSize
-	}
-	return 0
-}
-
-type ListGroupMembersResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Members       []*GroupMember         `protobuf:"bytes,1,rep,name=members,proto3" json:"members,omitempty"`
-	NextPageToken string                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	TotalCount    int32                  `protobuf:"varint,3,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListGroupMembersResponse) Reset() {
-	*x = ListGroupMembersResponse{}
-	mi := &file_org_manager_proto_msgTypes[35]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListGroupMembersResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListGroupMembersResponse) ProtoMessage() {}
-
-func (x *ListGroupMembersResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[35]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListGroupMembersResponse.ProtoReflect.Descriptor instead.
-func (*ListGroupMembersResponse) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{35}
-}
-
-func (x *ListGroupMembersResponse) GetMembers() []*GroupMember {
-	if x != nil {
-		return x.Members
-	}
-	return nil
-}
-
-func (x *ListGroupMembersResponse) GetNextPageToken() string {
-	if x != nil {
-		return x.NextPageToken
-	}
-	return ""
-}
-
-func (x *ListGroupMembersResponse) GetTotalCount() int32 {
-	if x != nil {
-		return x.TotalCount
-	}
-	return 0
-}
-
-type CreateInvitationRequest struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	OrgId          string                 `protobuf:"bytes,1,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
-	Email          string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
-	Role           OrgRole                `protobuf:"varint,3,opt,name=role,proto3,enum=aevo.org_manager.v1.OrgRole" json:"role,omitempty"`
-	ExpiresInHours int32                  `protobuf:"varint,4,opt,name=expires_in_hours,json=expiresInHours,proto3" json:"expires_in_hours,omitempty"` // TTL opzionale (default: 7 giorni)
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
-}
-
-func (x *CreateInvitationRequest) Reset() {
-	*x = CreateInvitationRequest{}
-	mi := &file_org_manager_proto_msgTypes[36]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateInvitationRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateInvitationRequest) ProtoMessage() {}
-
-func (x *CreateInvitationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[36]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateInvitationRequest.ProtoReflect.Descriptor instead.
-func (*CreateInvitationRequest) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{36}
-}
-
-func (x *CreateInvitationRequest) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
-	}
-	return ""
-}
-
-func (x *CreateInvitationRequest) GetEmail() string {
-	if x != nil {
-		return x.Email
-	}
-	return ""
-}
-
-func (x *CreateInvitationRequest) GetRole() OrgRole {
-	if x != nil {
-		return x.Role
-	}
-	return OrgRole_ORG_ROLE_UNSPECIFIED
-}
-
-func (x *CreateInvitationRequest) GetExpiresInHours() int32 {
-	if x != nil {
-		return x.ExpiresInHours
-	}
-	return 0
-}
-
-type CreateInvitationResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Invitation    *Invitation            `protobuf:"bytes,1,opt,name=invitation,proto3" json:"invitation,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateInvitationResponse) Reset() {
-	*x = CreateInvitationResponse{}
-	mi := &file_org_manager_proto_msgTypes[37]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateInvitationResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateInvitationResponse) ProtoMessage() {}
-
-func (x *CreateInvitationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[37]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateInvitationResponse.ProtoReflect.Descriptor instead.
-func (*CreateInvitationResponse) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{37}
-}
-
-func (x *CreateInvitationResponse) GetInvitation() *Invitation {
-	if x != nil {
-		return x.Invitation
-	}
-	return nil
-}
-
-type AcceptInvitationRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Token         string                 `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`                 // Token dall'URL
-	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // Estratto dal JWT dell'utente che accetta
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *AcceptInvitationRequest) Reset() {
-	*x = AcceptInvitationRequest{}
-	mi := &file_org_manager_proto_msgTypes[38]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *AcceptInvitationRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AcceptInvitationRequest) ProtoMessage() {}
-
-func (x *AcceptInvitationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[38]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AcceptInvitationRequest.ProtoReflect.Descriptor instead.
-func (*AcceptInvitationRequest) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{38}
-}
-
-func (x *AcceptInvitationRequest) GetToken() string {
-	if x != nil {
-		return x.Token
-	}
-	return ""
-}
-
-func (x *AcceptInvitationRequest) GetUserId() string {
-	if x != nil {
-		return x.UserId
-	}
-	return ""
-}
-
-type AcceptInvitationResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Member        *OrgMember             `protobuf:"bytes,1,opt,name=member,proto3" json:"member,omitempty"`
-	Org           *Organization          `protobuf:"bytes,2,opt,name=org,proto3" json:"org,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *AcceptInvitationResponse) Reset() {
-	*x = AcceptInvitationResponse{}
-	mi := &file_org_manager_proto_msgTypes[39]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *AcceptInvitationResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AcceptInvitationResponse) ProtoMessage() {}
-
-func (x *AcceptInvitationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[39]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AcceptInvitationResponse.ProtoReflect.Descriptor instead.
-func (*AcceptInvitationResponse) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{39}
-}
-
-func (x *AcceptInvitationResponse) GetMember() *OrgMember {
-	if x != nil {
-		return x.Member
-	}
-	return nil
-}
-
-func (x *AcceptInvitationResponse) GetOrg() *Organization {
-	if x != nil {
-		return x.Org
-	}
-	return nil
-}
-
-type DeclineInvitationRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Token         string                 `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeclineInvitationRequest) Reset() {
-	*x = DeclineInvitationRequest{}
-	mi := &file_org_manager_proto_msgTypes[40]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeclineInvitationRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeclineInvitationRequest) ProtoMessage() {}
-
-func (x *DeclineInvitationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[40]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeclineInvitationRequest.ProtoReflect.Descriptor instead.
-func (*DeclineInvitationRequest) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{40}
-}
-
-func (x *DeclineInvitationRequest) GetToken() string {
-	if x != nil {
-		return x.Token
-	}
-	return ""
-}
-
-type RevokeInvitationRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	OrgId         string                 `protobuf:"bytes,1,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
-	InvitationId  string                 `protobuf:"bytes,2,opt,name=invitation_id,json=invitationId,proto3" json:"invitation_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *RevokeInvitationRequest) Reset() {
-	*x = RevokeInvitationRequest{}
-	mi := &file_org_manager_proto_msgTypes[41]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *RevokeInvitationRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RevokeInvitationRequest) ProtoMessage() {}
-
-func (x *RevokeInvitationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[41]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RevokeInvitationRequest.ProtoReflect.Descriptor instead.
-func (*RevokeInvitationRequest) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{41}
-}
-
-func (x *RevokeInvitationRequest) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
-	}
-	return ""
-}
-
-func (x *RevokeInvitationRequest) GetInvitationId() string {
-	if x != nil {
-		return x.InvitationId
-	}
-	return ""
-}
-
-type ListInvitationsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	OrgId         string                 `protobuf:"bytes,1,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
-	PageToken     string                 `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
-	PageSize      int32                  `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
-	StatusFilter  InvitationStatus       `protobuf:"varint,4,opt,name=status_filter,json=statusFilter,proto3,enum=aevo.org_manager.v1.InvitationStatus" json:"status_filter,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListInvitationsRequest) Reset() {
-	*x = ListInvitationsRequest{}
-	mi := &file_org_manager_proto_msgTypes[42]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListInvitationsRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListInvitationsRequest) ProtoMessage() {}
-
-func (x *ListInvitationsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[42]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListInvitationsRequest.ProtoReflect.Descriptor instead.
-func (*ListInvitationsRequest) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{42}
-}
-
-func (x *ListInvitationsRequest) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
-	}
-	return ""
-}
-
-func (x *ListInvitationsRequest) GetPageToken() string {
-	if x != nil {
-		return x.PageToken
-	}
-	return ""
-}
-
-func (x *ListInvitationsRequest) GetPageSize() int32 {
-	if x != nil {
-		return x.PageSize
-	}
-	return 0
-}
-
-func (x *ListInvitationsRequest) GetStatusFilter() InvitationStatus {
-	if x != nil {
-		return x.StatusFilter
-	}
-	return InvitationStatus_INVITATION_STATUS_UNSPECIFIED
-}
-
-type ListInvitationsResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Invitations   []*Invitation          `protobuf:"bytes,1,rep,name=invitations,proto3" json:"invitations,omitempty"`
-	NextPageToken string                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListInvitationsResponse) Reset() {
-	*x = ListInvitationsResponse{}
-	mi := &file_org_manager_proto_msgTypes[43]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListInvitationsResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListInvitationsResponse) ProtoMessage() {}
-
-func (x *ListInvitationsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[43]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListInvitationsResponse.ProtoReflect.Descriptor instead.
-func (*ListInvitationsResponse) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{43}
-}
-
-func (x *ListInvitationsResponse) GetInvitations() []*Invitation {
-	if x != nil {
-		return x.Invitations
-	}
-	return nil
-}
-
-func (x *ListInvitationsResponse) GetNextPageToken() string {
-	if x != nil {
-		return x.NextPageToken
 	}
 	return ""
 }
@@ -2933,7 +1424,7 @@ type EventMetadata struct {
 
 func (x *EventMetadata) Reset() {
 	*x = EventMetadata{}
-	mi := &file_org_manager_proto_msgTypes[44]
+	mi := &file_org_manager_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2945,7 +1436,7 @@ func (x *EventMetadata) String() string {
 func (*EventMetadata) ProtoMessage() {}
 
 func (x *EventMetadata) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[44]
+	mi := &file_org_manager_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2958,7 +1449,7 @@ func (x *EventMetadata) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EventMetadata.ProtoReflect.Descriptor instead.
 func (*EventMetadata) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{44}
+	return file_org_manager_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *EventMetadata) GetEventId() string {
@@ -3007,7 +1498,7 @@ type OrgCreatedEvent struct {
 
 func (x *OrgCreatedEvent) Reset() {
 	*x = OrgCreatedEvent{}
-	mi := &file_org_manager_proto_msgTypes[45]
+	mi := &file_org_manager_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3019,7 +1510,7 @@ func (x *OrgCreatedEvent) String() string {
 func (*OrgCreatedEvent) ProtoMessage() {}
 
 func (x *OrgCreatedEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[45]
+	mi := &file_org_manager_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3032,7 +1523,7 @@ func (x *OrgCreatedEvent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OrgCreatedEvent.ProtoReflect.Descriptor instead.
 func (*OrgCreatedEvent) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{45}
+	return file_org_manager_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *OrgCreatedEvent) GetMetadata() *EventMetadata {
@@ -3068,7 +1559,7 @@ type OrgUpdatedEvent struct {
 
 func (x *OrgUpdatedEvent) Reset() {
 	*x = OrgUpdatedEvent{}
-	mi := &file_org_manager_proto_msgTypes[46]
+	mi := &file_org_manager_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3080,7 +1571,7 @@ func (x *OrgUpdatedEvent) String() string {
 func (*OrgUpdatedEvent) ProtoMessage() {}
 
 func (x *OrgUpdatedEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[46]
+	mi := &file_org_manager_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3093,7 +1584,7 @@ func (x *OrgUpdatedEvent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OrgUpdatedEvent.ProtoReflect.Descriptor instead.
 func (*OrgUpdatedEvent) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{46}
+	return file_org_manager_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *OrgUpdatedEvent) GetMetadata() *EventMetadata {
@@ -3136,7 +1627,7 @@ type OrgDeletedEvent struct {
 
 func (x *OrgDeletedEvent) Reset() {
 	*x = OrgDeletedEvent{}
-	mi := &file_org_manager_proto_msgTypes[47]
+	mi := &file_org_manager_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3148,7 +1639,7 @@ func (x *OrgDeletedEvent) String() string {
 func (*OrgDeletedEvent) ProtoMessage() {}
 
 func (x *OrgDeletedEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[47]
+	mi := &file_org_manager_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3161,7 +1652,7 @@ func (x *OrgDeletedEvent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OrgDeletedEvent.ProtoReflect.Descriptor instead.
 func (*OrgDeletedEvent) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{47}
+	return file_org_manager_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *OrgDeletedEvent) GetMetadata() *EventMetadata {
@@ -3202,7 +1693,7 @@ type MemberJoinedEvent struct {
 
 func (x *MemberJoinedEvent) Reset() {
 	*x = MemberJoinedEvent{}
-	mi := &file_org_manager_proto_msgTypes[48]
+	mi := &file_org_manager_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3214,7 +1705,7 @@ func (x *MemberJoinedEvent) String() string {
 func (*MemberJoinedEvent) ProtoMessage() {}
 
 func (x *MemberJoinedEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[48]
+	mi := &file_org_manager_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3227,7 +1718,7 @@ func (x *MemberJoinedEvent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MemberJoinedEvent.ProtoReflect.Descriptor instead.
 func (*MemberJoinedEvent) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{48}
+	return file_org_manager_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *MemberJoinedEvent) GetMetadata() *EventMetadata {
@@ -3258,7 +1749,7 @@ type MemberRoleChangedEvent struct {
 
 func (x *MemberRoleChangedEvent) Reset() {
 	*x = MemberRoleChangedEvent{}
-	mi := &file_org_manager_proto_msgTypes[49]
+	mi := &file_org_manager_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3270,7 +1761,7 @@ func (x *MemberRoleChangedEvent) String() string {
 func (*MemberRoleChangedEvent) ProtoMessage() {}
 
 func (x *MemberRoleChangedEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[49]
+	mi := &file_org_manager_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3283,7 +1774,7 @@ func (x *MemberRoleChangedEvent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MemberRoleChangedEvent.ProtoReflect.Descriptor instead.
 func (*MemberRoleChangedEvent) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{49}
+	return file_org_manager_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *MemberRoleChangedEvent) GetMetadata() *EventMetadata {
@@ -3340,7 +1831,7 @@ type MemberRemovedEvent struct {
 
 func (x *MemberRemovedEvent) Reset() {
 	*x = MemberRemovedEvent{}
-	mi := &file_org_manager_proto_msgTypes[50]
+	mi := &file_org_manager_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3352,7 +1843,7 @@ func (x *MemberRemovedEvent) String() string {
 func (*MemberRemovedEvent) ProtoMessage() {}
 
 func (x *MemberRemovedEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[50]
+	mi := &file_org_manager_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3365,7 +1856,7 @@ func (x *MemberRemovedEvent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MemberRemovedEvent.ProtoReflect.Descriptor instead.
 func (*MemberRemovedEvent) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{50}
+	return file_org_manager_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *MemberRemovedEvent) GetMetadata() *EventMetadata {
@@ -3392,126 +1883,6 @@ func (x *MemberRemovedEvent) GetUserId() string {
 func (x *MemberRemovedEvent) GetRemovedByUserId() string {
 	if x != nil {
 		return x.RemovedByUserId
-	}
-	return ""
-}
-
-type InvitationCreatedEvent struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Metadata      *EventMetadata         `protobuf:"bytes,1,opt,name=metadata,proto3" json:"metadata,omitempty"`
-	Invitation    *Invitation            `protobuf:"bytes,2,opt,name=invitation,proto3" json:"invitation,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *InvitationCreatedEvent) Reset() {
-	*x = InvitationCreatedEvent{}
-	mi := &file_org_manager_proto_msgTypes[51]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *InvitationCreatedEvent) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*InvitationCreatedEvent) ProtoMessage() {}
-
-func (x *InvitationCreatedEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[51]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use InvitationCreatedEvent.ProtoReflect.Descriptor instead.
-func (*InvitationCreatedEvent) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{51}
-}
-
-func (x *InvitationCreatedEvent) GetMetadata() *EventMetadata {
-	if x != nil {
-		return x.Metadata
-	}
-	return nil
-}
-
-func (x *InvitationCreatedEvent) GetInvitation() *Invitation {
-	if x != nil {
-		return x.Invitation
-	}
-	return nil
-}
-
-type InvitationAcceptedEvent struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Metadata      *EventMetadata         `protobuf:"bytes,1,opt,name=metadata,proto3" json:"metadata,omitempty"`
-	InvitationId  string                 `protobuf:"bytes,2,opt,name=invitation_id,json=invitationId,proto3" json:"invitation_id,omitempty"`
-	OrgId         string                 `protobuf:"bytes,3,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
-	UserId        string                 `protobuf:"bytes,4,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *InvitationAcceptedEvent) Reset() {
-	*x = InvitationAcceptedEvent{}
-	mi := &file_org_manager_proto_msgTypes[52]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *InvitationAcceptedEvent) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*InvitationAcceptedEvent) ProtoMessage() {}
-
-func (x *InvitationAcceptedEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_org_manager_proto_msgTypes[52]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use InvitationAcceptedEvent.ProtoReflect.Descriptor instead.
-func (*InvitationAcceptedEvent) Descriptor() ([]byte, []int) {
-	return file_org_manager_proto_rawDescGZIP(), []int{52}
-}
-
-func (x *InvitationAcceptedEvent) GetMetadata() *EventMetadata {
-	if x != nil {
-		return x.Metadata
-	}
-	return nil
-}
-
-func (x *InvitationAcceptedEvent) GetInvitationId() string {
-	if x != nil {
-		return x.InvitationId
-	}
-	return ""
-}
-
-func (x *InvitationAcceptedEvent) GetOrgId() string {
-	if x != nil {
-		return x.OrgId
-	}
-	return ""
-}
-
-func (x *InvitationAcceptedEvent) GetUserId() string {
-	if x != nil {
-		return x.UserId
 	}
 	return ""
 }
@@ -3552,40 +1923,7 @@ const file_org_manager_proto_rawDesc = "" +
 	"\tis_active\x18\x05 \x01(\bR\bisActive\x127\n" +
 	"\tjoined_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\bjoinedAt\x12<\n" +
 	"\flast_seen_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\n" +
-	"lastSeenAt\"\xe0\x02\n" +
-	"\x05Group\x12\x15\n" +
-	"\x06org_id\x18\x01 \x01(\tR\x05orgId\x12\x19\n" +
-	"\bgroup_id\x18\x02 \x01(\tR\agroupId\x12\x12\n" +
-	"\x04name\x18\x03 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\x12>\n" +
-	"\x06labels\x18\x05 \x03(\v2&.aevo.org_manager.v1.Group.LabelsEntryR\x06labels\x129\n" +
-	"\n" +
-	"created_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
-	"\n" +
-	"updated_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x1a9\n" +
-	"\vLabelsEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xc3\x01\n" +
-	"\vGroupMember\x12\x15\n" +
-	"\x06org_id\x18\x01 \x01(\tR\x05orgId\x12\x19\n" +
-	"\bgroup_id\x18\x02 \x01(\tR\agroupId\x12\x17\n" +
-	"\auser_id\x18\x03 \x01(\tR\x06userId\x122\n" +
-	"\x04role\x18\x04 \x01(\x0e2\x1e.aevo.org_manager.v1.GroupRoleR\x04role\x125\n" +
-	"\badded_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\aaddedAt\"\xfa\x02\n" +
-	"\n" +
-	"Invitation\x12#\n" +
-	"\rinvitation_id\x18\x01 \x01(\tR\finvitationId\x12\x15\n" +
-	"\x06org_id\x18\x02 \x01(\tR\x05orgId\x12\x14\n" +
-	"\x05email\x18\x03 \x01(\tR\x05email\x120\n" +
-	"\x04role\x18\x04 \x01(\x0e2\x1c.aevo.org_manager.v1.OrgRoleR\x04role\x12\x1d\n" +
-	"\n" +
-	"invited_by\x18\x05 \x01(\tR\tinvitedBy\x12=\n" +
-	"\x06status\x18\x06 \x01(\x0e2%.aevo.org_manager.v1.InvitationStatusR\x06status\x12\x14\n" +
-	"\x05token\x18\a \x01(\tR\x05token\x129\n" +
-	"\n" +
-	"created_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
-	"\n" +
-	"expires_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\"\xa3\x01\n" +
+	"lastSeenAt\"\xa3\x01\n" +
 	"\x19CreateOrganizationRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x12\n" +
 	"\x04slug\x18\x02 \x01(\tR\x04slug\x12 \n" +
@@ -3642,98 +1980,17 @@ const file_org_manager_proto_rawDesc = "" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x127\n" +
 	"\bnew_role\x18\x03 \x01(\x0e2\x1c.aevo.org_manager.v1.OrgRoleR\anewRole\"R\n" +
 	"\x18UpdateMemberRoleResponse\x126\n" +
+	"\x06member\x18\x01 \x01(\v2\x1e.aevo.org_manager.v1.OrgMemberR\x06member\"\x90\x01\n" +
+	"\x16CreateOrgMemberRequest\x12\x15\n" +
+	"\x06org_id\x18\x01 \x01(\tR\x05orgId\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x14\n" +
+	"\x05email\x18\x03 \x01(\tR\x05email\x120\n" +
+	"\x04role\x18\x04 \x01(\x0e2\x1c.aevo.org_manager.v1.OrgRoleR\x04role\"Q\n" +
+	"\x17CreateOrgMemberResponse\x126\n" +
 	"\x06member\x18\x01 \x01(\v2\x1e.aevo.org_manager.v1.OrgMemberR\x06member\"E\n" +
 	"\x13RemoveMemberRequest\x12\x15\n" +
 	"\x06org_id\x18\x01 \x01(\tR\x05orgId\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\"\xe9\x01\n" +
-	"\x12CreateGroupRequest\x12\x15\n" +
-	"\x06org_id\x18\x01 \x01(\tR\x05orgId\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12K\n" +
-	"\x06labels\x18\x04 \x03(\v23.aevo.org_manager.v1.CreateGroupRequest.LabelsEntryR\x06labels\x1a9\n" +
-	"\vLabelsEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"G\n" +
-	"\x13CreateGroupResponse\x120\n" +
-	"\x05group\x18\x01 \x01(\v2\x1a.aevo.org_manager.v1.GroupR\x05group\"C\n" +
-	"\x0fGetGroupRequest\x12\x15\n" +
-	"\x06org_id\x18\x01 \x01(\tR\x05orgId\x12\x19\n" +
-	"\bgroup_id\x18\x02 \x01(\tR\agroupId\"D\n" +
-	"\x10GetGroupResponse\x120\n" +
-	"\x05group\x18\x01 \x01(\v2\x1a.aevo.org_manager.v1.GroupR\x05group\"\x7f\n" +
-	"\x11ListGroupsRequest\x12\x15\n" +
-	"\x06org_id\x18\x01 \x01(\tR\x05orgId\x12\x1d\n" +
-	"\n" +
-	"page_token\x18\x02 \x01(\tR\tpageToken\x12\x1b\n" +
-	"\tpage_size\x18\x03 \x01(\x05R\bpageSize\x12\x17\n" +
-	"\auser_id\x18\x04 \x01(\tR\x06userId\"\x91\x01\n" +
-	"\x12ListGroupsResponse\x122\n" +
-	"\x06groups\x18\x01 \x03(\v2\x1a.aevo.org_manager.v1.GroupR\x06groups\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\x12\x1f\n" +
-	"\vtotal_count\x18\x03 \x01(\x05R\n" +
-	"totalCount\"\xb5\x01\n" +
-	"\x12UpdateGroupRequest\x12\x15\n" +
-	"\x06org_id\x18\x01 \x01(\tR\x05orgId\x12\x19\n" +
-	"\bgroup_id\x18\x02 \x01(\tR\agroupId\x120\n" +
-	"\x05group\x18\x03 \x01(\v2\x1a.aevo.org_manager.v1.GroupR\x05group\x12;\n" +
-	"\vupdate_mask\x18\x04 \x01(\v2\x1a.google.protobuf.FieldMaskR\n" +
-	"updateMask\"G\n" +
-	"\x13UpdateGroupResponse\x120\n" +
-	"\x05group\x18\x01 \x01(\v2\x1a.aevo.org_manager.v1.GroupR\x05group\"F\n" +
-	"\x12DeleteGroupRequest\x12\x15\n" +
-	"\x06org_id\x18\x01 \x01(\tR\x05orgId\x12\x19\n" +
-	"\bgroup_id\x18\x02 \x01(\tR\agroupId\"\x96\x01\n" +
-	"\x15AddGroupMemberRequest\x12\x15\n" +
-	"\x06org_id\x18\x01 \x01(\tR\x05orgId\x12\x19\n" +
-	"\bgroup_id\x18\x02 \x01(\tR\agroupId\x12\x17\n" +
-	"\auser_id\x18\x03 \x01(\tR\x06userId\x122\n" +
-	"\x04role\x18\x04 \x01(\x0e2\x1e.aevo.org_manager.v1.GroupRoleR\x04role\"R\n" +
-	"\x16AddGroupMemberResponse\x128\n" +
-	"\x06member\x18\x01 \x01(\v2 .aevo.org_manager.v1.GroupMemberR\x06member\"e\n" +
-	"\x18RemoveGroupMemberRequest\x12\x15\n" +
-	"\x06org_id\x18\x01 \x01(\tR\x05orgId\x12\x19\n" +
-	"\bgroup_id\x18\x02 \x01(\tR\agroupId\x12\x17\n" +
-	"\auser_id\x18\x03 \x01(\tR\x06userId\"\x87\x01\n" +
-	"\x17ListGroupMembersRequest\x12\x15\n" +
-	"\x06org_id\x18\x01 \x01(\tR\x05orgId\x12\x19\n" +
-	"\bgroup_id\x18\x02 \x01(\tR\agroupId\x12\x1d\n" +
-	"\n" +
-	"page_token\x18\x03 \x01(\tR\tpageToken\x12\x1b\n" +
-	"\tpage_size\x18\x04 \x01(\x05R\bpageSize\"\x9f\x01\n" +
-	"\x18ListGroupMembersResponse\x12:\n" +
-	"\amembers\x18\x01 \x03(\v2 .aevo.org_manager.v1.GroupMemberR\amembers\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\x12\x1f\n" +
-	"\vtotal_count\x18\x03 \x01(\x05R\n" +
-	"totalCount\"\xa2\x01\n" +
-	"\x17CreateInvitationRequest\x12\x15\n" +
-	"\x06org_id\x18\x01 \x01(\tR\x05orgId\x12\x14\n" +
-	"\x05email\x18\x02 \x01(\tR\x05email\x120\n" +
-	"\x04role\x18\x03 \x01(\x0e2\x1c.aevo.org_manager.v1.OrgRoleR\x04role\x12(\n" +
-	"\x10expires_in_hours\x18\x04 \x01(\x05R\x0eexpiresInHours\"[\n" +
-	"\x18CreateInvitationResponse\x12?\n" +
-	"\n" +
-	"invitation\x18\x01 \x01(\v2\x1f.aevo.org_manager.v1.InvitationR\n" +
-	"invitation\"H\n" +
-	"\x17AcceptInvitationRequest\x12\x14\n" +
-	"\x05token\x18\x01 \x01(\tR\x05token\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\"\x87\x01\n" +
-	"\x18AcceptInvitationResponse\x126\n" +
-	"\x06member\x18\x01 \x01(\v2\x1e.aevo.org_manager.v1.OrgMemberR\x06member\x123\n" +
-	"\x03org\x18\x02 \x01(\v2!.aevo.org_manager.v1.OrganizationR\x03org\"0\n" +
-	"\x18DeclineInvitationRequest\x12\x14\n" +
-	"\x05token\x18\x01 \x01(\tR\x05token\"U\n" +
-	"\x17RevokeInvitationRequest\x12\x15\n" +
-	"\x06org_id\x18\x01 \x01(\tR\x05orgId\x12#\n" +
-	"\rinvitation_id\x18\x02 \x01(\tR\finvitationId\"\xb7\x01\n" +
-	"\x16ListInvitationsRequest\x12\x15\n" +
-	"\x06org_id\x18\x01 \x01(\tR\x05orgId\x12\x1d\n" +
-	"\n" +
-	"page_token\x18\x02 \x01(\tR\tpageToken\x12\x1b\n" +
-	"\tpage_size\x18\x03 \x01(\x05R\bpageSize\x12J\n" +
-	"\rstatus_filter\x18\x04 \x01(\x0e2%.aevo.org_manager.v1.InvitationStatusR\fstatusFilter\"\x84\x01\n" +
-	"\x17ListInvitationsResponse\x12A\n" +
-	"\vinvitations\x18\x01 \x03(\v2\x1f.aevo.org_manager.v1.InvitationR\vinvitations\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"\xd4\x01\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\"\xd4\x01\n" +
 	"\rEventMetadata\x12\x19\n" +
 	"\bevent_id\x18\x01 \x01(\tR\aeventId\x12\x1d\n" +
 	"\n" +
@@ -3771,66 +2028,31 @@ const file_org_manager_proto_rawDesc = "" +
 	"\bmetadata\x18\x01 \x01(\v2\".aevo.org_manager.v1.EventMetadataR\bmetadata\x12\x15\n" +
 	"\x06org_id\x18\x02 \x01(\tR\x05orgId\x12\x17\n" +
 	"\auser_id\x18\x03 \x01(\tR\x06userId\x12+\n" +
-	"\x12removed_by_user_id\x18\x04 \x01(\tR\x0fremovedByUserId\"\x99\x01\n" +
-	"\x16InvitationCreatedEvent\x12>\n" +
-	"\bmetadata\x18\x01 \x01(\v2\".aevo.org_manager.v1.EventMetadataR\bmetadata\x12?\n" +
-	"\n" +
-	"invitation\x18\x02 \x01(\v2\x1f.aevo.org_manager.v1.InvitationR\n" +
-	"invitation\"\xae\x01\n" +
-	"\x17InvitationAcceptedEvent\x12>\n" +
-	"\bmetadata\x18\x01 \x01(\v2\".aevo.org_manager.v1.EventMetadataR\bmetadata\x12#\n" +
-	"\rinvitation_id\x18\x02 \x01(\tR\finvitationId\x12\x15\n" +
-	"\x06org_id\x18\x03 \x01(\tR\x05orgId\x12\x17\n" +
-	"\auser_id\x18\x04 \x01(\tR\x06userId*\x8b\x01\n" +
+	"\x12removed_by_user_id\x18\x04 \x01(\tR\x0fremovedByUserId*\x8b\x01\n" +
 	"\aOrgRole\x12\x18\n" +
 	"\x14ORG_ROLE_UNSPECIFIED\x10\x00\x12\x12\n" +
 	"\x0eORG_ROLE_OWNER\x10\x01\x12\x12\n" +
 	"\x0eORG_ROLE_ADMIN\x10\x02\x12\x13\n" +
 	"\x0fORG_ROLE_MEMBER\x10\x03\x12\x13\n" +
 	"\x0fORG_ROLE_VIEWER\x10\x04\x12\x14\n" +
-	"\x10ORG_ROLE_BILLING\x10\x05*Y\n" +
-	"\tGroupRole\x12\x1a\n" +
-	"\x16GROUP_ROLE_UNSPECIFIED\x10\x00\x12\x19\n" +
-	"\x15GROUP_ROLE_MAINTAINER\x10\x01\x12\x15\n" +
-	"\x11GROUP_ROLE_MEMBER\x10\x02*p\n" +
+	"\x10ORG_ROLE_BILLING\x10\x05*p\n" +
 	"\tOrgStatus\x12\x1a\n" +
 	"\x16ORG_STATUS_UNSPECIFIED\x10\x00\x12\x15\n" +
 	"\x11ORG_STATUS_ACTIVE\x10\x01\x12\x18\n" +
 	"\x14ORG_STATUS_SUSPENDED\x10\x02\x12\x16\n" +
-	"\x12ORG_STATUS_DELETED\x10\x03*\xd2\x01\n" +
-	"\x10InvitationStatus\x12!\n" +
-	"\x1dINVITATION_STATUS_UNSPECIFIED\x10\x00\x12\x1d\n" +
-	"\x19INVITATION_STATUS_PENDING\x10\x01\x12\x1e\n" +
-	"\x1aINVITATION_STATUS_ACCEPTED\x10\x02\x12\x1e\n" +
-	"\x1aINVITATION_STATUS_DECLINED\x10\x03\x12\x1d\n" +
-	"\x19INVITATION_STATUS_EXPIRED\x10\x04\x12\x1d\n" +
-	"\x19INVITATION_STATUS_REVOKED\x10\x052\xd3\v\n" +
+	"\x12ORG_STATUS_DELETED\x10\x032\xbb\b\n" +
 	"\n" +
 	"OrgService\x12u\n" +
 	"\x12CreateOrganization\x12..aevo.org_manager.v1.CreateOrganizationRequest\x1a/.aevo.org_manager.v1.CreateOrganizationResponse\x12l\n" +
 	"\x0fGetOrganization\x12+.aevo.org_manager.v1.GetOrganizationRequest\x1a,.aevo.org_manager.v1.GetOrganizationResponse\x12u\n" +
 	"\x12UpdateOrganization\x12..aevo.org_manager.v1.UpdateOrganizationRequest\x1a/.aevo.org_manager.v1.UpdateOrganizationResponse\x12\\\n" +
 	"\x12DeleteOrganization\x12..aevo.org_manager.v1.DeleteOrganizationRequest\x1a\x16.google.protobuf.Empty\x12r\n" +
-	"\x11ListOrganizations\x12-.aevo.org_manager.v1.ListOrganizationsRequest\x1a..aevo.org_manager.v1.ListOrganizationsResponse\x12c\n" +
+	"\x11ListOrganizations\x12-.aevo.org_manager.v1.ListOrganizationsRequest\x1a..aevo.org_manager.v1.ListOrganizationsResponse\x12l\n" +
+	"\x0fCreateOrgMember\x12+.aevo.org_manager.v1.CreateOrgMemberRequest\x1a,.aevo.org_manager.v1.CreateOrgMemberResponse\x12c\n" +
 	"\fGetOrgMember\x12(.aevo.org_manager.v1.GetOrgMemberRequest\x1a).aevo.org_manager.v1.GetOrgMemberResponse\x12i\n" +
 	"\x0eListOrgMembers\x12*.aevo.org_manager.v1.ListOrgMembersRequest\x1a+.aevo.org_manager.v1.ListOrgMembersResponse\x12o\n" +
 	"\x10UpdateMemberRole\x12,.aevo.org_manager.v1.UpdateMemberRoleRequest\x1a-.aevo.org_manager.v1.UpdateMemberRoleResponse\x12P\n" +
-	"\fRemoveMember\x12(.aevo.org_manager.v1.RemoveMemberRequest\x1a\x16.google.protobuf.Empty\x12o\n" +
-	"\x10CreateInvitation\x12,.aevo.org_manager.v1.CreateInvitationRequest\x1a-.aevo.org_manager.v1.CreateInvitationResponse\x12o\n" +
-	"\x10AcceptInvitation\x12,.aevo.org_manager.v1.AcceptInvitationRequest\x1a-.aevo.org_manager.v1.AcceptInvitationResponse\x12Z\n" +
-	"\x11DeclineInvitation\x12-.aevo.org_manager.v1.DeclineInvitationRequest\x1a\x16.google.protobuf.Empty\x12X\n" +
-	"\x10RevokeInvitation\x12,.aevo.org_manager.v1.RevokeInvitationRequest\x1a\x16.google.protobuf.Empty\x12l\n" +
-	"\x0fListInvitations\x12+.aevo.org_manager.v1.ListInvitationsRequest\x1a,.aevo.org_manager.v1.ListInvitationsResponse2\x92\x06\n" +
-	"\fGroupService\x12`\n" +
-	"\vCreateGroup\x12'.aevo.org_manager.v1.CreateGroupRequest\x1a(.aevo.org_manager.v1.CreateGroupResponse\x12W\n" +
-	"\bGetGroup\x12$.aevo.org_manager.v1.GetGroupRequest\x1a%.aevo.org_manager.v1.GetGroupResponse\x12]\n" +
-	"\n" +
-	"ListGroups\x12&.aevo.org_manager.v1.ListGroupsRequest\x1a'.aevo.org_manager.v1.ListGroupsResponse\x12`\n" +
-	"\vUpdateGroup\x12'.aevo.org_manager.v1.UpdateGroupRequest\x1a(.aevo.org_manager.v1.UpdateGroupResponse\x12N\n" +
-	"\vDeleteGroup\x12'.aevo.org_manager.v1.DeleteGroupRequest\x1a\x16.google.protobuf.Empty\x12i\n" +
-	"\x0eAddGroupMember\x12*.aevo.org_manager.v1.AddGroupMemberRequest\x1a+.aevo.org_manager.v1.AddGroupMemberResponse\x12Z\n" +
-	"\x11RemoveGroupMember\x12-.aevo.org_manager.v1.RemoveGroupMemberRequest\x1a\x16.google.protobuf.Empty\x12o\n" +
-	"\x10ListGroupMembers\x12,.aevo.org_manager.v1.ListGroupMembersRequest\x1a-.aevo.org_manager.v1.ListGroupMembersResponseBc\n" +
+	"\fRemoveMember\x12(.aevo.org_manager.v1.RemoveMemberRequest\x1a\x16.google.protobuf.EmptyBc\n" +
 	"\x16io.aevo.org_manager.v1P\x01ZGgithub.com/aevo-platform/aevo-proto/org-manager/gen/org/v1;org_manager1b\x06proto3"
 
 var (
@@ -3845,184 +2067,105 @@ func file_org_manager_proto_rawDescGZIP() []byte {
 	return file_org_manager_proto_rawDescData
 }
 
-var file_org_manager_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
-var file_org_manager_proto_msgTypes = make([]protoimpl.MessageInfo, 55)
+var file_org_manager_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_org_manager_proto_msgTypes = make([]protoimpl.MessageInfo, 28)
 var file_org_manager_proto_goTypes = []any{
 	(OrgRole)(0),                       // 0: aevo.org_manager.v1.OrgRole
-	(GroupRole)(0),                     // 1: aevo.org_manager.v1.GroupRole
-	(OrgStatus)(0),                     // 2: aevo.org_manager.v1.OrgStatus
-	(InvitationStatus)(0),              // 3: aevo.org_manager.v1.InvitationStatus
-	(*Organization)(nil),               // 4: aevo.org_manager.v1.Organization
-	(*OrgSettings)(nil),                // 5: aevo.org_manager.v1.OrgSettings
-	(*OrgMember)(nil),                  // 6: aevo.org_manager.v1.OrgMember
-	(*Group)(nil),                      // 7: aevo.org_manager.v1.Group
-	(*GroupMember)(nil),                // 8: aevo.org_manager.v1.GroupMember
-	(*Invitation)(nil),                 // 9: aevo.org_manager.v1.Invitation
-	(*CreateOrganizationRequest)(nil),  // 10: aevo.org_manager.v1.CreateOrganizationRequest
-	(*CreateOrganizationResponse)(nil), // 11: aevo.org_manager.v1.CreateOrganizationResponse
-	(*GetOrganizationRequest)(nil),     // 12: aevo.org_manager.v1.GetOrganizationRequest
-	(*GetOrganizationResponse)(nil),    // 13: aevo.org_manager.v1.GetOrganizationResponse
-	(*UpdateOrganizationRequest)(nil),  // 14: aevo.org_manager.v1.UpdateOrganizationRequest
-	(*UpdateOrganizationResponse)(nil), // 15: aevo.org_manager.v1.UpdateOrganizationResponse
-	(*DeleteOrganizationRequest)(nil),  // 16: aevo.org_manager.v1.DeleteOrganizationRequest
-	(*ListOrganizationsRequest)(nil),   // 17: aevo.org_manager.v1.ListOrganizationsRequest
-	(*ListOrganizationsResponse)(nil),  // 18: aevo.org_manager.v1.ListOrganizationsResponse
-	(*GetOrgMemberRequest)(nil),        // 19: aevo.org_manager.v1.GetOrgMemberRequest
-	(*GetOrgMemberResponse)(nil),       // 20: aevo.org_manager.v1.GetOrgMemberResponse
-	(*ListOrgMembersRequest)(nil),      // 21: aevo.org_manager.v1.ListOrgMembersRequest
-	(*ListOrgMembersResponse)(nil),     // 22: aevo.org_manager.v1.ListOrgMembersResponse
-	(*UpdateMemberRoleRequest)(nil),    // 23: aevo.org_manager.v1.UpdateMemberRoleRequest
-	(*UpdateMemberRoleResponse)(nil),   // 24: aevo.org_manager.v1.UpdateMemberRoleResponse
-	(*RemoveMemberRequest)(nil),        // 25: aevo.org_manager.v1.RemoveMemberRequest
-	(*CreateGroupRequest)(nil),         // 26: aevo.org_manager.v1.CreateGroupRequest
-	(*CreateGroupResponse)(nil),        // 27: aevo.org_manager.v1.CreateGroupResponse
-	(*GetGroupRequest)(nil),            // 28: aevo.org_manager.v1.GetGroupRequest
-	(*GetGroupResponse)(nil),           // 29: aevo.org_manager.v1.GetGroupResponse
-	(*ListGroupsRequest)(nil),          // 30: aevo.org_manager.v1.ListGroupsRequest
-	(*ListGroupsResponse)(nil),         // 31: aevo.org_manager.v1.ListGroupsResponse
-	(*UpdateGroupRequest)(nil),         // 32: aevo.org_manager.v1.UpdateGroupRequest
-	(*UpdateGroupResponse)(nil),        // 33: aevo.org_manager.v1.UpdateGroupResponse
-	(*DeleteGroupRequest)(nil),         // 34: aevo.org_manager.v1.DeleteGroupRequest
-	(*AddGroupMemberRequest)(nil),      // 35: aevo.org_manager.v1.AddGroupMemberRequest
-	(*AddGroupMemberResponse)(nil),     // 36: aevo.org_manager.v1.AddGroupMemberResponse
-	(*RemoveGroupMemberRequest)(nil),   // 37: aevo.org_manager.v1.RemoveGroupMemberRequest
-	(*ListGroupMembersRequest)(nil),    // 38: aevo.org_manager.v1.ListGroupMembersRequest
-	(*ListGroupMembersResponse)(nil),   // 39: aevo.org_manager.v1.ListGroupMembersResponse
-	(*CreateInvitationRequest)(nil),    // 40: aevo.org_manager.v1.CreateInvitationRequest
-	(*CreateInvitationResponse)(nil),   // 41: aevo.org_manager.v1.CreateInvitationResponse
-	(*AcceptInvitationRequest)(nil),    // 42: aevo.org_manager.v1.AcceptInvitationRequest
-	(*AcceptInvitationResponse)(nil),   // 43: aevo.org_manager.v1.AcceptInvitationResponse
-	(*DeclineInvitationRequest)(nil),   // 44: aevo.org_manager.v1.DeclineInvitationRequest
-	(*RevokeInvitationRequest)(nil),    // 45: aevo.org_manager.v1.RevokeInvitationRequest
-	(*ListInvitationsRequest)(nil),     // 46: aevo.org_manager.v1.ListInvitationsRequest
-	(*ListInvitationsResponse)(nil),    // 47: aevo.org_manager.v1.ListInvitationsResponse
-	(*EventMetadata)(nil),              // 48: aevo.org_manager.v1.EventMetadata
-	(*OrgCreatedEvent)(nil),            // 49: aevo.org_manager.v1.OrgCreatedEvent
-	(*OrgUpdatedEvent)(nil),            // 50: aevo.org_manager.v1.OrgUpdatedEvent
-	(*OrgDeletedEvent)(nil),            // 51: aevo.org_manager.v1.OrgDeletedEvent
-	(*MemberJoinedEvent)(nil),          // 52: aevo.org_manager.v1.MemberJoinedEvent
-	(*MemberRoleChangedEvent)(nil),     // 53: aevo.org_manager.v1.MemberRoleChangedEvent
-	(*MemberRemovedEvent)(nil),         // 54: aevo.org_manager.v1.MemberRemovedEvent
-	(*InvitationCreatedEvent)(nil),     // 55: aevo.org_manager.v1.InvitationCreatedEvent
-	(*InvitationAcceptedEvent)(nil),    // 56: aevo.org_manager.v1.InvitationAcceptedEvent
-	nil,                                // 57: aevo.org_manager.v1.Group.LabelsEntry
-	nil,                                // 58: aevo.org_manager.v1.CreateGroupRequest.LabelsEntry
-	(*timestamppb.Timestamp)(nil),      // 59: google.protobuf.Timestamp
-	(*fieldmaskpb.FieldMask)(nil),      // 60: google.protobuf.FieldMask
-	(*emptypb.Empty)(nil),              // 61: google.protobuf.Empty
+	(OrgStatus)(0),                     // 1: aevo.org_manager.v1.OrgStatus
+	(*Organization)(nil),               // 2: aevo.org_manager.v1.Organization
+	(*OrgSettings)(nil),                // 3: aevo.org_manager.v1.OrgSettings
+	(*OrgMember)(nil),                  // 4: aevo.org_manager.v1.OrgMember
+	(*CreateOrganizationRequest)(nil),  // 5: aevo.org_manager.v1.CreateOrganizationRequest
+	(*CreateOrganizationResponse)(nil), // 6: aevo.org_manager.v1.CreateOrganizationResponse
+	(*GetOrganizationRequest)(nil),     // 7: aevo.org_manager.v1.GetOrganizationRequest
+	(*GetOrganizationResponse)(nil),    // 8: aevo.org_manager.v1.GetOrganizationResponse
+	(*UpdateOrganizationRequest)(nil),  // 9: aevo.org_manager.v1.UpdateOrganizationRequest
+	(*UpdateOrganizationResponse)(nil), // 10: aevo.org_manager.v1.UpdateOrganizationResponse
+	(*DeleteOrganizationRequest)(nil),  // 11: aevo.org_manager.v1.DeleteOrganizationRequest
+	(*ListOrganizationsRequest)(nil),   // 12: aevo.org_manager.v1.ListOrganizationsRequest
+	(*ListOrganizationsResponse)(nil),  // 13: aevo.org_manager.v1.ListOrganizationsResponse
+	(*GetOrgMemberRequest)(nil),        // 14: aevo.org_manager.v1.GetOrgMemberRequest
+	(*GetOrgMemberResponse)(nil),       // 15: aevo.org_manager.v1.GetOrgMemberResponse
+	(*ListOrgMembersRequest)(nil),      // 16: aevo.org_manager.v1.ListOrgMembersRequest
+	(*ListOrgMembersResponse)(nil),     // 17: aevo.org_manager.v1.ListOrgMembersResponse
+	(*UpdateMemberRoleRequest)(nil),    // 18: aevo.org_manager.v1.UpdateMemberRoleRequest
+	(*UpdateMemberRoleResponse)(nil),   // 19: aevo.org_manager.v1.UpdateMemberRoleResponse
+	(*CreateOrgMemberRequest)(nil),     // 20: aevo.org_manager.v1.CreateOrgMemberRequest
+	(*CreateOrgMemberResponse)(nil),    // 21: aevo.org_manager.v1.CreateOrgMemberResponse
+	(*RemoveMemberRequest)(nil),        // 22: aevo.org_manager.v1.RemoveMemberRequest
+	(*EventMetadata)(nil),              // 23: aevo.org_manager.v1.EventMetadata
+	(*OrgCreatedEvent)(nil),            // 24: aevo.org_manager.v1.OrgCreatedEvent
+	(*OrgUpdatedEvent)(nil),            // 25: aevo.org_manager.v1.OrgUpdatedEvent
+	(*OrgDeletedEvent)(nil),            // 26: aevo.org_manager.v1.OrgDeletedEvent
+	(*MemberJoinedEvent)(nil),          // 27: aevo.org_manager.v1.MemberJoinedEvent
+	(*MemberRoleChangedEvent)(nil),     // 28: aevo.org_manager.v1.MemberRoleChangedEvent
+	(*MemberRemovedEvent)(nil),         // 29: aevo.org_manager.v1.MemberRemovedEvent
+	(*timestamppb.Timestamp)(nil),      // 30: google.protobuf.Timestamp
+	(*fieldmaskpb.FieldMask)(nil),      // 31: google.protobuf.FieldMask
+	(*emptypb.Empty)(nil),              // 32: google.protobuf.Empty
 }
 var file_org_manager_proto_depIdxs = []int32{
-	2,  // 0: aevo.org_manager.v1.Organization.status:type_name -> aevo.org_manager.v1.OrgStatus
-	5,  // 1: aevo.org_manager.v1.Organization.settings:type_name -> aevo.org_manager.v1.OrgSettings
-	59, // 2: aevo.org_manager.v1.Organization.created_at:type_name -> google.protobuf.Timestamp
-	59, // 3: aevo.org_manager.v1.Organization.updated_at:type_name -> google.protobuf.Timestamp
-	59, // 4: aevo.org_manager.v1.Organization.deleted_at:type_name -> google.protobuf.Timestamp
+	1,  // 0: aevo.org_manager.v1.Organization.status:type_name -> aevo.org_manager.v1.OrgStatus
+	3,  // 1: aevo.org_manager.v1.Organization.settings:type_name -> aevo.org_manager.v1.OrgSettings
+	30, // 2: aevo.org_manager.v1.Organization.created_at:type_name -> google.protobuf.Timestamp
+	30, // 3: aevo.org_manager.v1.Organization.updated_at:type_name -> google.protobuf.Timestamp
+	30, // 4: aevo.org_manager.v1.Organization.deleted_at:type_name -> google.protobuf.Timestamp
 	0,  // 5: aevo.org_manager.v1.OrgMember.role:type_name -> aevo.org_manager.v1.OrgRole
-	59, // 6: aevo.org_manager.v1.OrgMember.joined_at:type_name -> google.protobuf.Timestamp
-	59, // 7: aevo.org_manager.v1.OrgMember.last_seen_at:type_name -> google.protobuf.Timestamp
-	57, // 8: aevo.org_manager.v1.Group.labels:type_name -> aevo.org_manager.v1.Group.LabelsEntry
-	59, // 9: aevo.org_manager.v1.Group.created_at:type_name -> google.protobuf.Timestamp
-	59, // 10: aevo.org_manager.v1.Group.updated_at:type_name -> google.protobuf.Timestamp
-	1,  // 11: aevo.org_manager.v1.GroupMember.role:type_name -> aevo.org_manager.v1.GroupRole
-	59, // 12: aevo.org_manager.v1.GroupMember.added_at:type_name -> google.protobuf.Timestamp
-	0,  // 13: aevo.org_manager.v1.Invitation.role:type_name -> aevo.org_manager.v1.OrgRole
-	3,  // 14: aevo.org_manager.v1.Invitation.status:type_name -> aevo.org_manager.v1.InvitationStatus
-	59, // 15: aevo.org_manager.v1.Invitation.created_at:type_name -> google.protobuf.Timestamp
-	59, // 16: aevo.org_manager.v1.Invitation.expires_at:type_name -> google.protobuf.Timestamp
-	5,  // 17: aevo.org_manager.v1.CreateOrganizationRequest.settings:type_name -> aevo.org_manager.v1.OrgSettings
-	4,  // 18: aevo.org_manager.v1.CreateOrganizationResponse.organization:type_name -> aevo.org_manager.v1.Organization
-	4,  // 19: aevo.org_manager.v1.GetOrganizationResponse.organization:type_name -> aevo.org_manager.v1.Organization
-	4,  // 20: aevo.org_manager.v1.UpdateOrganizationRequest.org:type_name -> aevo.org_manager.v1.Organization
-	60, // 21: aevo.org_manager.v1.UpdateOrganizationRequest.update_mask:type_name -> google.protobuf.FieldMask
-	4,  // 22: aevo.org_manager.v1.UpdateOrganizationResponse.organization:type_name -> aevo.org_manager.v1.Organization
-	2,  // 23: aevo.org_manager.v1.ListOrganizationsRequest.status_filter:type_name -> aevo.org_manager.v1.OrgStatus
-	4,  // 24: aevo.org_manager.v1.ListOrganizationsResponse.organizations:type_name -> aevo.org_manager.v1.Organization
-	6,  // 25: aevo.org_manager.v1.GetOrgMemberResponse.member:type_name -> aevo.org_manager.v1.OrgMember
-	0,  // 26: aevo.org_manager.v1.ListOrgMembersRequest.role_filter:type_name -> aevo.org_manager.v1.OrgRole
-	6,  // 27: aevo.org_manager.v1.ListOrgMembersResponse.members:type_name -> aevo.org_manager.v1.OrgMember
-	0,  // 28: aevo.org_manager.v1.UpdateMemberRoleRequest.new_role:type_name -> aevo.org_manager.v1.OrgRole
-	6,  // 29: aevo.org_manager.v1.UpdateMemberRoleResponse.member:type_name -> aevo.org_manager.v1.OrgMember
-	58, // 30: aevo.org_manager.v1.CreateGroupRequest.labels:type_name -> aevo.org_manager.v1.CreateGroupRequest.LabelsEntry
-	7,  // 31: aevo.org_manager.v1.CreateGroupResponse.group:type_name -> aevo.org_manager.v1.Group
-	7,  // 32: aevo.org_manager.v1.GetGroupResponse.group:type_name -> aevo.org_manager.v1.Group
-	7,  // 33: aevo.org_manager.v1.ListGroupsResponse.groups:type_name -> aevo.org_manager.v1.Group
-	7,  // 34: aevo.org_manager.v1.UpdateGroupRequest.group:type_name -> aevo.org_manager.v1.Group
-	60, // 35: aevo.org_manager.v1.UpdateGroupRequest.update_mask:type_name -> google.protobuf.FieldMask
-	7,  // 36: aevo.org_manager.v1.UpdateGroupResponse.group:type_name -> aevo.org_manager.v1.Group
-	1,  // 37: aevo.org_manager.v1.AddGroupMemberRequest.role:type_name -> aevo.org_manager.v1.GroupRole
-	8,  // 38: aevo.org_manager.v1.AddGroupMemberResponse.member:type_name -> aevo.org_manager.v1.GroupMember
-	8,  // 39: aevo.org_manager.v1.ListGroupMembersResponse.members:type_name -> aevo.org_manager.v1.GroupMember
-	0,  // 40: aevo.org_manager.v1.CreateInvitationRequest.role:type_name -> aevo.org_manager.v1.OrgRole
-	9,  // 41: aevo.org_manager.v1.CreateInvitationResponse.invitation:type_name -> aevo.org_manager.v1.Invitation
-	6,  // 42: aevo.org_manager.v1.AcceptInvitationResponse.member:type_name -> aevo.org_manager.v1.OrgMember
-	4,  // 43: aevo.org_manager.v1.AcceptInvitationResponse.org:type_name -> aevo.org_manager.v1.Organization
-	3,  // 44: aevo.org_manager.v1.ListInvitationsRequest.status_filter:type_name -> aevo.org_manager.v1.InvitationStatus
-	9,  // 45: aevo.org_manager.v1.ListInvitationsResponse.invitations:type_name -> aevo.org_manager.v1.Invitation
-	59, // 46: aevo.org_manager.v1.EventMetadata.occurred_at:type_name -> google.protobuf.Timestamp
-	48, // 47: aevo.org_manager.v1.OrgCreatedEvent.metadata:type_name -> aevo.org_manager.v1.EventMetadata
-	4,  // 48: aevo.org_manager.v1.OrgCreatedEvent.org:type_name -> aevo.org_manager.v1.Organization
-	48, // 49: aevo.org_manager.v1.OrgUpdatedEvent.metadata:type_name -> aevo.org_manager.v1.EventMetadata
-	4,  // 50: aevo.org_manager.v1.OrgUpdatedEvent.org:type_name -> aevo.org_manager.v1.Organization
-	60, // 51: aevo.org_manager.v1.OrgUpdatedEvent.changed_fields:type_name -> google.protobuf.FieldMask
-	48, // 52: aevo.org_manager.v1.OrgDeletedEvent.metadata:type_name -> aevo.org_manager.v1.EventMetadata
-	48, // 53: aevo.org_manager.v1.MemberJoinedEvent.metadata:type_name -> aevo.org_manager.v1.EventMetadata
-	6,  // 54: aevo.org_manager.v1.MemberJoinedEvent.member:type_name -> aevo.org_manager.v1.OrgMember
-	48, // 55: aevo.org_manager.v1.MemberRoleChangedEvent.metadata:type_name -> aevo.org_manager.v1.EventMetadata
-	0,  // 56: aevo.org_manager.v1.MemberRoleChangedEvent.old_role:type_name -> aevo.org_manager.v1.OrgRole
-	0,  // 57: aevo.org_manager.v1.MemberRoleChangedEvent.new_role:type_name -> aevo.org_manager.v1.OrgRole
-	48, // 58: aevo.org_manager.v1.MemberRemovedEvent.metadata:type_name -> aevo.org_manager.v1.EventMetadata
-	48, // 59: aevo.org_manager.v1.InvitationCreatedEvent.metadata:type_name -> aevo.org_manager.v1.EventMetadata
-	9,  // 60: aevo.org_manager.v1.InvitationCreatedEvent.invitation:type_name -> aevo.org_manager.v1.Invitation
-	48, // 61: aevo.org_manager.v1.InvitationAcceptedEvent.metadata:type_name -> aevo.org_manager.v1.EventMetadata
-	10, // 62: aevo.org_manager.v1.OrgService.CreateOrganization:input_type -> aevo.org_manager.v1.CreateOrganizationRequest
-	12, // 63: aevo.org_manager.v1.OrgService.GetOrganization:input_type -> aevo.org_manager.v1.GetOrganizationRequest
-	14, // 64: aevo.org_manager.v1.OrgService.UpdateOrganization:input_type -> aevo.org_manager.v1.UpdateOrganizationRequest
-	16, // 65: aevo.org_manager.v1.OrgService.DeleteOrganization:input_type -> aevo.org_manager.v1.DeleteOrganizationRequest
-	17, // 66: aevo.org_manager.v1.OrgService.ListOrganizations:input_type -> aevo.org_manager.v1.ListOrganizationsRequest
-	19, // 67: aevo.org_manager.v1.OrgService.GetOrgMember:input_type -> aevo.org_manager.v1.GetOrgMemberRequest
-	21, // 68: aevo.org_manager.v1.OrgService.ListOrgMembers:input_type -> aevo.org_manager.v1.ListOrgMembersRequest
-	23, // 69: aevo.org_manager.v1.OrgService.UpdateMemberRole:input_type -> aevo.org_manager.v1.UpdateMemberRoleRequest
-	25, // 70: aevo.org_manager.v1.OrgService.RemoveMember:input_type -> aevo.org_manager.v1.RemoveMemberRequest
-	40, // 71: aevo.org_manager.v1.OrgService.CreateInvitation:input_type -> aevo.org_manager.v1.CreateInvitationRequest
-	42, // 72: aevo.org_manager.v1.OrgService.AcceptInvitation:input_type -> aevo.org_manager.v1.AcceptInvitationRequest
-	44, // 73: aevo.org_manager.v1.OrgService.DeclineInvitation:input_type -> aevo.org_manager.v1.DeclineInvitationRequest
-	45, // 74: aevo.org_manager.v1.OrgService.RevokeInvitation:input_type -> aevo.org_manager.v1.RevokeInvitationRequest
-	46, // 75: aevo.org_manager.v1.OrgService.ListInvitations:input_type -> aevo.org_manager.v1.ListInvitationsRequest
-	26, // 76: aevo.org_manager.v1.GroupService.CreateGroup:input_type -> aevo.org_manager.v1.CreateGroupRequest
-	28, // 77: aevo.org_manager.v1.GroupService.GetGroup:input_type -> aevo.org_manager.v1.GetGroupRequest
-	30, // 78: aevo.org_manager.v1.GroupService.ListGroups:input_type -> aevo.org_manager.v1.ListGroupsRequest
-	32, // 79: aevo.org_manager.v1.GroupService.UpdateGroup:input_type -> aevo.org_manager.v1.UpdateGroupRequest
-	34, // 80: aevo.org_manager.v1.GroupService.DeleteGroup:input_type -> aevo.org_manager.v1.DeleteGroupRequest
-	35, // 81: aevo.org_manager.v1.GroupService.AddGroupMember:input_type -> aevo.org_manager.v1.AddGroupMemberRequest
-	37, // 82: aevo.org_manager.v1.GroupService.RemoveGroupMember:input_type -> aevo.org_manager.v1.RemoveGroupMemberRequest
-	38, // 83: aevo.org_manager.v1.GroupService.ListGroupMembers:input_type -> aevo.org_manager.v1.ListGroupMembersRequest
-	11, // 84: aevo.org_manager.v1.OrgService.CreateOrganization:output_type -> aevo.org_manager.v1.CreateOrganizationResponse
-	13, // 85: aevo.org_manager.v1.OrgService.GetOrganization:output_type -> aevo.org_manager.v1.GetOrganizationResponse
-	15, // 86: aevo.org_manager.v1.OrgService.UpdateOrganization:output_type -> aevo.org_manager.v1.UpdateOrganizationResponse
-	61, // 87: aevo.org_manager.v1.OrgService.DeleteOrganization:output_type -> google.protobuf.Empty
-	18, // 88: aevo.org_manager.v1.OrgService.ListOrganizations:output_type -> aevo.org_manager.v1.ListOrganizationsResponse
-	20, // 89: aevo.org_manager.v1.OrgService.GetOrgMember:output_type -> aevo.org_manager.v1.GetOrgMemberResponse
-	22, // 90: aevo.org_manager.v1.OrgService.ListOrgMembers:output_type -> aevo.org_manager.v1.ListOrgMembersResponse
-	24, // 91: aevo.org_manager.v1.OrgService.UpdateMemberRole:output_type -> aevo.org_manager.v1.UpdateMemberRoleResponse
-	61, // 92: aevo.org_manager.v1.OrgService.RemoveMember:output_type -> google.protobuf.Empty
-	41, // 93: aevo.org_manager.v1.OrgService.CreateInvitation:output_type -> aevo.org_manager.v1.CreateInvitationResponse
-	43, // 94: aevo.org_manager.v1.OrgService.AcceptInvitation:output_type -> aevo.org_manager.v1.AcceptInvitationResponse
-	61, // 95: aevo.org_manager.v1.OrgService.DeclineInvitation:output_type -> google.protobuf.Empty
-	61, // 96: aevo.org_manager.v1.OrgService.RevokeInvitation:output_type -> google.protobuf.Empty
-	47, // 97: aevo.org_manager.v1.OrgService.ListInvitations:output_type -> aevo.org_manager.v1.ListInvitationsResponse
-	27, // 98: aevo.org_manager.v1.GroupService.CreateGroup:output_type -> aevo.org_manager.v1.CreateGroupResponse
-	29, // 99: aevo.org_manager.v1.GroupService.GetGroup:output_type -> aevo.org_manager.v1.GetGroupResponse
-	31, // 100: aevo.org_manager.v1.GroupService.ListGroups:output_type -> aevo.org_manager.v1.ListGroupsResponse
-	33, // 101: aevo.org_manager.v1.GroupService.UpdateGroup:output_type -> aevo.org_manager.v1.UpdateGroupResponse
-	61, // 102: aevo.org_manager.v1.GroupService.DeleteGroup:output_type -> google.protobuf.Empty
-	36, // 103: aevo.org_manager.v1.GroupService.AddGroupMember:output_type -> aevo.org_manager.v1.AddGroupMemberResponse
-	61, // 104: aevo.org_manager.v1.GroupService.RemoveGroupMember:output_type -> google.protobuf.Empty
-	39, // 105: aevo.org_manager.v1.GroupService.ListGroupMembers:output_type -> aevo.org_manager.v1.ListGroupMembersResponse
-	84, // [84:106] is the sub-list for method output_type
-	62, // [62:84] is the sub-list for method input_type
-	62, // [62:62] is the sub-list for extension type_name
-	62, // [62:62] is the sub-list for extension extendee
-	0,  // [0:62] is the sub-list for field type_name
+	30, // 6: aevo.org_manager.v1.OrgMember.joined_at:type_name -> google.protobuf.Timestamp
+	30, // 7: aevo.org_manager.v1.OrgMember.last_seen_at:type_name -> google.protobuf.Timestamp
+	3,  // 8: aevo.org_manager.v1.CreateOrganizationRequest.settings:type_name -> aevo.org_manager.v1.OrgSettings
+	2,  // 9: aevo.org_manager.v1.CreateOrganizationResponse.organization:type_name -> aevo.org_manager.v1.Organization
+	2,  // 10: aevo.org_manager.v1.GetOrganizationResponse.organization:type_name -> aevo.org_manager.v1.Organization
+	2,  // 11: aevo.org_manager.v1.UpdateOrganizationRequest.org:type_name -> aevo.org_manager.v1.Organization
+	31, // 12: aevo.org_manager.v1.UpdateOrganizationRequest.update_mask:type_name -> google.protobuf.FieldMask
+	2,  // 13: aevo.org_manager.v1.UpdateOrganizationResponse.organization:type_name -> aevo.org_manager.v1.Organization
+	1,  // 14: aevo.org_manager.v1.ListOrganizationsRequest.status_filter:type_name -> aevo.org_manager.v1.OrgStatus
+	2,  // 15: aevo.org_manager.v1.ListOrganizationsResponse.organizations:type_name -> aevo.org_manager.v1.Organization
+	4,  // 16: aevo.org_manager.v1.GetOrgMemberResponse.member:type_name -> aevo.org_manager.v1.OrgMember
+	0,  // 17: aevo.org_manager.v1.ListOrgMembersRequest.role_filter:type_name -> aevo.org_manager.v1.OrgRole
+	4,  // 18: aevo.org_manager.v1.ListOrgMembersResponse.members:type_name -> aevo.org_manager.v1.OrgMember
+	0,  // 19: aevo.org_manager.v1.UpdateMemberRoleRequest.new_role:type_name -> aevo.org_manager.v1.OrgRole
+	4,  // 20: aevo.org_manager.v1.UpdateMemberRoleResponse.member:type_name -> aevo.org_manager.v1.OrgMember
+	0,  // 21: aevo.org_manager.v1.CreateOrgMemberRequest.role:type_name -> aevo.org_manager.v1.OrgRole
+	4,  // 22: aevo.org_manager.v1.CreateOrgMemberResponse.member:type_name -> aevo.org_manager.v1.OrgMember
+	30, // 23: aevo.org_manager.v1.EventMetadata.occurred_at:type_name -> google.protobuf.Timestamp
+	23, // 24: aevo.org_manager.v1.OrgCreatedEvent.metadata:type_name -> aevo.org_manager.v1.EventMetadata
+	2,  // 25: aevo.org_manager.v1.OrgCreatedEvent.org:type_name -> aevo.org_manager.v1.Organization
+	23, // 26: aevo.org_manager.v1.OrgUpdatedEvent.metadata:type_name -> aevo.org_manager.v1.EventMetadata
+	2,  // 27: aevo.org_manager.v1.OrgUpdatedEvent.org:type_name -> aevo.org_manager.v1.Organization
+	31, // 28: aevo.org_manager.v1.OrgUpdatedEvent.changed_fields:type_name -> google.protobuf.FieldMask
+	23, // 29: aevo.org_manager.v1.OrgDeletedEvent.metadata:type_name -> aevo.org_manager.v1.EventMetadata
+	23, // 30: aevo.org_manager.v1.MemberJoinedEvent.metadata:type_name -> aevo.org_manager.v1.EventMetadata
+	4,  // 31: aevo.org_manager.v1.MemberJoinedEvent.member:type_name -> aevo.org_manager.v1.OrgMember
+	23, // 32: aevo.org_manager.v1.MemberRoleChangedEvent.metadata:type_name -> aevo.org_manager.v1.EventMetadata
+	0,  // 33: aevo.org_manager.v1.MemberRoleChangedEvent.old_role:type_name -> aevo.org_manager.v1.OrgRole
+	0,  // 34: aevo.org_manager.v1.MemberRoleChangedEvent.new_role:type_name -> aevo.org_manager.v1.OrgRole
+	23, // 35: aevo.org_manager.v1.MemberRemovedEvent.metadata:type_name -> aevo.org_manager.v1.EventMetadata
+	5,  // 36: aevo.org_manager.v1.OrgService.CreateOrganization:input_type -> aevo.org_manager.v1.CreateOrganizationRequest
+	7,  // 37: aevo.org_manager.v1.OrgService.GetOrganization:input_type -> aevo.org_manager.v1.GetOrganizationRequest
+	9,  // 38: aevo.org_manager.v1.OrgService.UpdateOrganization:input_type -> aevo.org_manager.v1.UpdateOrganizationRequest
+	11, // 39: aevo.org_manager.v1.OrgService.DeleteOrganization:input_type -> aevo.org_manager.v1.DeleteOrganizationRequest
+	12, // 40: aevo.org_manager.v1.OrgService.ListOrganizations:input_type -> aevo.org_manager.v1.ListOrganizationsRequest
+	20, // 41: aevo.org_manager.v1.OrgService.CreateOrgMember:input_type -> aevo.org_manager.v1.CreateOrgMemberRequest
+	14, // 42: aevo.org_manager.v1.OrgService.GetOrgMember:input_type -> aevo.org_manager.v1.GetOrgMemberRequest
+	16, // 43: aevo.org_manager.v1.OrgService.ListOrgMembers:input_type -> aevo.org_manager.v1.ListOrgMembersRequest
+	18, // 44: aevo.org_manager.v1.OrgService.UpdateMemberRole:input_type -> aevo.org_manager.v1.UpdateMemberRoleRequest
+	22, // 45: aevo.org_manager.v1.OrgService.RemoveMember:input_type -> aevo.org_manager.v1.RemoveMemberRequest
+	6,  // 46: aevo.org_manager.v1.OrgService.CreateOrganization:output_type -> aevo.org_manager.v1.CreateOrganizationResponse
+	8,  // 47: aevo.org_manager.v1.OrgService.GetOrganization:output_type -> aevo.org_manager.v1.GetOrganizationResponse
+	10, // 48: aevo.org_manager.v1.OrgService.UpdateOrganization:output_type -> aevo.org_manager.v1.UpdateOrganizationResponse
+	32, // 49: aevo.org_manager.v1.OrgService.DeleteOrganization:output_type -> google.protobuf.Empty
+	13, // 50: aevo.org_manager.v1.OrgService.ListOrganizations:output_type -> aevo.org_manager.v1.ListOrganizationsResponse
+	21, // 51: aevo.org_manager.v1.OrgService.CreateOrgMember:output_type -> aevo.org_manager.v1.CreateOrgMemberResponse
+	15, // 52: aevo.org_manager.v1.OrgService.GetOrgMember:output_type -> aevo.org_manager.v1.GetOrgMemberResponse
+	17, // 53: aevo.org_manager.v1.OrgService.ListOrgMembers:output_type -> aevo.org_manager.v1.ListOrgMembersResponse
+	19, // 54: aevo.org_manager.v1.OrgService.UpdateMemberRole:output_type -> aevo.org_manager.v1.UpdateMemberRoleResponse
+	32, // 55: aevo.org_manager.v1.OrgService.RemoveMember:output_type -> google.protobuf.Empty
+	46, // [46:56] is the sub-list for method output_type
+	36, // [36:46] is the sub-list for method input_type
+	36, // [36:36] is the sub-list for extension type_name
+	36, // [36:36] is the sub-list for extension extendee
+	0,  // [0:36] is the sub-list for field type_name
 }
 
 func init() { file_org_manager_proto_init() }
@@ -4035,10 +2178,10 @@ func file_org_manager_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_org_manager_proto_rawDesc), len(file_org_manager_proto_rawDesc)),
-			NumEnums:      4,
-			NumMessages:   55,
+			NumEnums:      2,
+			NumMessages:   28,
 			NumExtensions: 0,
-			NumServices:   2,
+			NumServices:   1,
 		},
 		GoTypes:           file_org_manager_proto_goTypes,
 		DependencyIndexes: file_org_manager_proto_depIdxs,
