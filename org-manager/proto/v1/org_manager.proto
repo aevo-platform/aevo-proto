@@ -70,11 +70,13 @@ message OrgMember {
   string  org_id    = 1;
   string  user_id   = 2;  // ID dall'Identity Provider (Keycloak, ecc.)
   string  email     = 3;  // Denormalizzato per leggibilità (non è source of truth)
-  OrgRole role      = 4;
-  bool    is_active = 5;
+  string  firstName = 4;
+  string  lastName  = 5;
+  OrgRole role      = 6;
+  bool    is_active = 7;
 
-  google.protobuf.Timestamp joined_at    = 6;
-  google.protobuf.Timestamp last_seen_at = 7; // Aggiornato da AEVO_EDGE ad ogni request
+  google.protobuf.Timestamp joined_at    = 8;
+  google.protobuf.Timestamp last_seen_at = 9; // Aggiornato da AEVO_EDGE ad ogni request
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -82,12 +84,12 @@ message OrgMember {
 // ─────────────────────────────────────────────────────────────────────────────
 
 message CreateOrganizationRequest {
-  string      name        = 1;
-  string      slug        = 2;
-  string      description = 3;
-  OrgSettings settings    = 4;
-  // Il creator_user_id viene estratto dal JWT in BrixOS_EDGE e passato
-  // come metadata gRPC — non è un campo della request pubblica.
+  string      name          = 1;
+  string      slug          = 2;
+  string      ownerName     = 3;
+  string      ownerLastName = 4;
+  string      ownerEmail    = 5;
+  string      ownerPassword = 6;
 }
 
 message CreateOrganizationResponse {
@@ -168,10 +170,12 @@ message UpdateMemberRoleResponse {
 }
 
 message CreateOrgMemberRequest {
-  string  org_id  = 1;
-  string  user_id = 2;
-  string  email   = 3;
-  OrgRole role    = 4;
+  string  org_id     = 1;
+  string  user_id    = 2;
+  string  email      = 3;
+  string  firstName  = 4;
+  string  lastName   = 5;
+  OrgRole role       = 6;
 }
 
 message CreateOrgMemberResponse {

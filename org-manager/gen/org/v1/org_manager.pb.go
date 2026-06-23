@@ -340,10 +340,12 @@ type OrgMember struct {
 	OrgId         string                 `protobuf:"bytes,1,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
 	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"` // ID dall'Identity Provider (Keycloak, ecc.)
 	Email         string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`                 // Denormalizzato per leggibilità (non è source of truth)
-	Role          OrgRole                `protobuf:"varint,4,opt,name=role,proto3,enum=aevo.org_manager.v1.OrgRole" json:"role,omitempty"`
-	IsActive      bool                   `protobuf:"varint,5,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
-	JoinedAt      *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=joined_at,json=joinedAt,proto3" json:"joined_at,omitempty"`
-	LastSeenAt    *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=last_seen_at,json=lastSeenAt,proto3" json:"last_seen_at,omitempty"` // Aggiornato da AEVO_EDGE ad ogni request
+	FirstName     string                 `protobuf:"bytes,4,opt,name=firstName,proto3" json:"firstName,omitempty"`
+	LastName      string                 `protobuf:"bytes,5,opt,name=lastName,proto3" json:"lastName,omitempty"`
+	Role          OrgRole                `protobuf:"varint,6,opt,name=role,proto3,enum=aevo.org_manager.v1.OrgRole" json:"role,omitempty"`
+	IsActive      bool                   `protobuf:"varint,7,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
+	JoinedAt      *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=joined_at,json=joinedAt,proto3" json:"joined_at,omitempty"`
+	LastSeenAt    *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=last_seen_at,json=lastSeenAt,proto3" json:"last_seen_at,omitempty"` // Aggiornato da AEVO_EDGE ad ogni request
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -399,6 +401,20 @@ func (x *OrgMember) GetEmail() string {
 	return ""
 }
 
+func (x *OrgMember) GetFirstName() string {
+	if x != nil {
+		return x.FirstName
+	}
+	return ""
+}
+
+func (x *OrgMember) GetLastName() string {
+	if x != nil {
+		return x.LastName
+	}
+	return ""
+}
+
 func (x *OrgMember) GetRole() OrgRole {
 	if x != nil {
 		return x.Role
@@ -431,8 +447,10 @@ type CreateOrganizationRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	Slug          string                 `protobuf:"bytes,2,opt,name=slug,proto3" json:"slug,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	Settings      *OrgSettings           `protobuf:"bytes,4,opt,name=settings,proto3" json:"settings,omitempty"`
+	OwnerName     string                 `protobuf:"bytes,3,opt,name=ownerName,proto3" json:"ownerName,omitempty"`
+	OwnerLastName string                 `protobuf:"bytes,4,opt,name=ownerLastName,proto3" json:"ownerLastName,omitempty"`
+	OwnerEmail    string                 `protobuf:"bytes,5,opt,name=ownerEmail,proto3" json:"ownerEmail,omitempty"`
+	OwnerPassword string                 `protobuf:"bytes,6,opt,name=ownerPassword,proto3" json:"ownerPassword,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -481,18 +499,32 @@ func (x *CreateOrganizationRequest) GetSlug() string {
 	return ""
 }
 
-func (x *CreateOrganizationRequest) GetDescription() string {
+func (x *CreateOrganizationRequest) GetOwnerName() string {
 	if x != nil {
-		return x.Description
+		return x.OwnerName
 	}
 	return ""
 }
 
-func (x *CreateOrganizationRequest) GetSettings() *OrgSettings {
+func (x *CreateOrganizationRequest) GetOwnerLastName() string {
 	if x != nil {
-		return x.Settings
+		return x.OwnerLastName
 	}
-	return nil
+	return ""
+}
+
+func (x *CreateOrganizationRequest) GetOwnerEmail() string {
+	if x != nil {
+		return x.OwnerEmail
+	}
+	return ""
+}
+
+func (x *CreateOrganizationRequest) GetOwnerPassword() string {
+	if x != nil {
+		return x.OwnerPassword
+	}
+	return ""
 }
 
 type CreateOrganizationResponse struct {
@@ -1252,7 +1284,9 @@ type CreateOrgMemberRequest struct {
 	OrgId         string                 `protobuf:"bytes,1,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
 	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	Email         string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
-	Role          OrgRole                `protobuf:"varint,4,opt,name=role,proto3,enum=aevo.org_manager.v1.OrgRole" json:"role,omitempty"`
+	FirstName     string                 `protobuf:"bytes,4,opt,name=firstName,proto3" json:"firstName,omitempty"`
+	LastName      string                 `protobuf:"bytes,5,opt,name=lastName,proto3" json:"lastName,omitempty"`
+	Role          OrgRole                `protobuf:"varint,6,opt,name=role,proto3,enum=aevo.org_manager.v1.OrgRole" json:"role,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1304,6 +1338,20 @@ func (x *CreateOrgMemberRequest) GetUserId() string {
 func (x *CreateOrgMemberRequest) GetEmail() string {
 	if x != nil {
 		return x.Email
+	}
+	return ""
+}
+
+func (x *CreateOrgMemberRequest) GetFirstName() string {
+	if x != nil {
+		return x.FirstName
+	}
+	return ""
+}
+
+func (x *CreateOrgMemberRequest) GetLastName() string {
+	if x != nil {
+		return x.LastName
 	}
 	return ""
 }
@@ -1438,21 +1486,27 @@ const file_org_manager_proto_rawDesc = "" +
 	"\vmax_members\x18\x04 \x01(\x05R\n" +
 	"maxMembers\x120\n" +
 	"\x14default_cloud_region\x18\x05 \x01(\tR\x12defaultCloudRegion\x126\n" +
-	"\x17allowed_cloud_providers\x18\x06 \x03(\tR\x15allowedCloudProviders\"\x97\x02\n" +
+	"\x17allowed_cloud_providers\x18\x06 \x03(\tR\x15allowedCloudProviders\"\xd1\x02\n" +
 	"\tOrgMember\x12\x15\n" +
 	"\x06org_id\x18\x01 \x01(\tR\x05orgId\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x14\n" +
-	"\x05email\x18\x03 \x01(\tR\x05email\x120\n" +
-	"\x04role\x18\x04 \x01(\x0e2\x1c.aevo.org_manager.v1.OrgRoleR\x04role\x12\x1b\n" +
-	"\tis_active\x18\x05 \x01(\bR\bisActive\x127\n" +
-	"\tjoined_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\bjoinedAt\x12<\n" +
-	"\flast_seen_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\n" +
-	"lastSeenAt\"\xa3\x01\n" +
+	"\x05email\x18\x03 \x01(\tR\x05email\x12\x1c\n" +
+	"\tfirstName\x18\x04 \x01(\tR\tfirstName\x12\x1a\n" +
+	"\blastName\x18\x05 \x01(\tR\blastName\x120\n" +
+	"\x04role\x18\x06 \x01(\x0e2\x1c.aevo.org_manager.v1.OrgRoleR\x04role\x12\x1b\n" +
+	"\tis_active\x18\a \x01(\bR\bisActive\x127\n" +
+	"\tjoined_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\bjoinedAt\x12<\n" +
+	"\flast_seen_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"lastSeenAt\"\xcd\x01\n" +
 	"\x19CreateOrganizationRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x12\n" +
-	"\x04slug\x18\x02 \x01(\tR\x04slug\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12<\n" +
-	"\bsettings\x18\x04 \x01(\v2 .aevo.org_manager.v1.OrgSettingsR\bsettings\"c\n" +
+	"\x04slug\x18\x02 \x01(\tR\x04slug\x12\x1c\n" +
+	"\townerName\x18\x03 \x01(\tR\townerName\x12$\n" +
+	"\rownerLastName\x18\x04 \x01(\tR\rownerLastName\x12\x1e\n" +
+	"\n" +
+	"ownerEmail\x18\x05 \x01(\tR\n" +
+	"ownerEmail\x12$\n" +
+	"\rownerPassword\x18\x06 \x01(\tR\rownerPassword\"c\n" +
 	"\x1aCreateOrganizationResponse\x12E\n" +
 	"\forganization\x18\x01 \x01(\v2!.aevo.org_manager.v1.OrganizationR\forganization\"C\n" +
 	"\x16GetOrganizationRequest\x12\x15\n" +
@@ -1504,12 +1558,14 @@ const file_org_manager_proto_rawDesc = "" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x127\n" +
 	"\bnew_role\x18\x03 \x01(\x0e2\x1c.aevo.org_manager.v1.OrgRoleR\anewRole\"R\n" +
 	"\x18UpdateMemberRoleResponse\x126\n" +
-	"\x06member\x18\x01 \x01(\v2\x1e.aevo.org_manager.v1.OrgMemberR\x06member\"\x90\x01\n" +
+	"\x06member\x18\x01 \x01(\v2\x1e.aevo.org_manager.v1.OrgMemberR\x06member\"\xca\x01\n" +
 	"\x16CreateOrgMemberRequest\x12\x15\n" +
 	"\x06org_id\x18\x01 \x01(\tR\x05orgId\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x14\n" +
-	"\x05email\x18\x03 \x01(\tR\x05email\x120\n" +
-	"\x04role\x18\x04 \x01(\x0e2\x1c.aevo.org_manager.v1.OrgRoleR\x04role\"Q\n" +
+	"\x05email\x18\x03 \x01(\tR\x05email\x12\x1c\n" +
+	"\tfirstName\x18\x04 \x01(\tR\tfirstName\x12\x1a\n" +
+	"\blastName\x18\x05 \x01(\tR\blastName\x120\n" +
+	"\x04role\x18\x06 \x01(\x0e2\x1c.aevo.org_manager.v1.OrgRoleR\x04role\"Q\n" +
 	"\x17CreateOrgMemberResponse\x126\n" +
 	"\x06member\x18\x01 \x01(\v2\x1e.aevo.org_manager.v1.OrgMemberR\x06member\"E\n" +
 	"\x13RemoveMemberRequest\x12\x15\n" +
@@ -1592,46 +1648,45 @@ var file_org_manager_proto_depIdxs = []int32{
 	0,  // 5: aevo.org_manager.v1.OrgMember.role:type_name -> aevo.org_manager.v1.OrgRole
 	23, // 6: aevo.org_manager.v1.OrgMember.joined_at:type_name -> google.protobuf.Timestamp
 	23, // 7: aevo.org_manager.v1.OrgMember.last_seen_at:type_name -> google.protobuf.Timestamp
-	3,  // 8: aevo.org_manager.v1.CreateOrganizationRequest.settings:type_name -> aevo.org_manager.v1.OrgSettings
-	2,  // 9: aevo.org_manager.v1.CreateOrganizationResponse.organization:type_name -> aevo.org_manager.v1.Organization
-	2,  // 10: aevo.org_manager.v1.GetOrganizationResponse.organization:type_name -> aevo.org_manager.v1.Organization
-	2,  // 11: aevo.org_manager.v1.UpdateOrganizationRequest.org:type_name -> aevo.org_manager.v1.Organization
-	24, // 12: aevo.org_manager.v1.UpdateOrganizationRequest.update_mask:type_name -> google.protobuf.FieldMask
-	2,  // 13: aevo.org_manager.v1.UpdateOrganizationResponse.organization:type_name -> aevo.org_manager.v1.Organization
-	1,  // 14: aevo.org_manager.v1.ListOrganizationsRequest.status_filter:type_name -> aevo.org_manager.v1.OrgStatus
-	2,  // 15: aevo.org_manager.v1.ListOrganizationsResponse.organizations:type_name -> aevo.org_manager.v1.Organization
-	4,  // 16: aevo.org_manager.v1.GetOrgMemberResponse.member:type_name -> aevo.org_manager.v1.OrgMember
-	0,  // 17: aevo.org_manager.v1.ListOrgMembersRequest.role_filter:type_name -> aevo.org_manager.v1.OrgRole
-	4,  // 18: aevo.org_manager.v1.ListOrgMembersResponse.members:type_name -> aevo.org_manager.v1.OrgMember
-	0,  // 19: aevo.org_manager.v1.UpdateMemberRoleRequest.new_role:type_name -> aevo.org_manager.v1.OrgRole
-	4,  // 20: aevo.org_manager.v1.UpdateMemberRoleResponse.member:type_name -> aevo.org_manager.v1.OrgMember
-	0,  // 21: aevo.org_manager.v1.CreateOrgMemberRequest.role:type_name -> aevo.org_manager.v1.OrgRole
-	4,  // 22: aevo.org_manager.v1.CreateOrgMemberResponse.member:type_name -> aevo.org_manager.v1.OrgMember
-	5,  // 23: aevo.org_manager.v1.OrgService.CreateOrganization:input_type -> aevo.org_manager.v1.CreateOrganizationRequest
-	7,  // 24: aevo.org_manager.v1.OrgService.GetOrganization:input_type -> aevo.org_manager.v1.GetOrganizationRequest
-	9,  // 25: aevo.org_manager.v1.OrgService.UpdateOrganization:input_type -> aevo.org_manager.v1.UpdateOrganizationRequest
-	11, // 26: aevo.org_manager.v1.OrgService.DeleteOrganization:input_type -> aevo.org_manager.v1.DeleteOrganizationRequest
-	12, // 27: aevo.org_manager.v1.OrgService.ListOrganizations:input_type -> aevo.org_manager.v1.ListOrganizationsRequest
-	20, // 28: aevo.org_manager.v1.OrgService.CreateOrgMember:input_type -> aevo.org_manager.v1.CreateOrgMemberRequest
-	14, // 29: aevo.org_manager.v1.OrgService.GetOrgMember:input_type -> aevo.org_manager.v1.GetOrgMemberRequest
-	16, // 30: aevo.org_manager.v1.OrgService.ListOrgMembers:input_type -> aevo.org_manager.v1.ListOrgMembersRequest
-	18, // 31: aevo.org_manager.v1.OrgService.UpdateMemberRole:input_type -> aevo.org_manager.v1.UpdateMemberRoleRequest
-	22, // 32: aevo.org_manager.v1.OrgService.RemoveMember:input_type -> aevo.org_manager.v1.RemoveMemberRequest
-	6,  // 33: aevo.org_manager.v1.OrgService.CreateOrganization:output_type -> aevo.org_manager.v1.CreateOrganizationResponse
-	8,  // 34: aevo.org_manager.v1.OrgService.GetOrganization:output_type -> aevo.org_manager.v1.GetOrganizationResponse
-	10, // 35: aevo.org_manager.v1.OrgService.UpdateOrganization:output_type -> aevo.org_manager.v1.UpdateOrganizationResponse
-	25, // 36: aevo.org_manager.v1.OrgService.DeleteOrganization:output_type -> google.protobuf.Empty
-	13, // 37: aevo.org_manager.v1.OrgService.ListOrganizations:output_type -> aevo.org_manager.v1.ListOrganizationsResponse
-	21, // 38: aevo.org_manager.v1.OrgService.CreateOrgMember:output_type -> aevo.org_manager.v1.CreateOrgMemberResponse
-	15, // 39: aevo.org_manager.v1.OrgService.GetOrgMember:output_type -> aevo.org_manager.v1.GetOrgMemberResponse
-	17, // 40: aevo.org_manager.v1.OrgService.ListOrgMembers:output_type -> aevo.org_manager.v1.ListOrgMembersResponse
-	19, // 41: aevo.org_manager.v1.OrgService.UpdateMemberRole:output_type -> aevo.org_manager.v1.UpdateMemberRoleResponse
-	25, // 42: aevo.org_manager.v1.OrgService.RemoveMember:output_type -> google.protobuf.Empty
-	33, // [33:43] is the sub-list for method output_type
-	23, // [23:33] is the sub-list for method input_type
-	23, // [23:23] is the sub-list for extension type_name
-	23, // [23:23] is the sub-list for extension extendee
-	0,  // [0:23] is the sub-list for field type_name
+	2,  // 8: aevo.org_manager.v1.CreateOrganizationResponse.organization:type_name -> aevo.org_manager.v1.Organization
+	2,  // 9: aevo.org_manager.v1.GetOrganizationResponse.organization:type_name -> aevo.org_manager.v1.Organization
+	2,  // 10: aevo.org_manager.v1.UpdateOrganizationRequest.org:type_name -> aevo.org_manager.v1.Organization
+	24, // 11: aevo.org_manager.v1.UpdateOrganizationRequest.update_mask:type_name -> google.protobuf.FieldMask
+	2,  // 12: aevo.org_manager.v1.UpdateOrganizationResponse.organization:type_name -> aevo.org_manager.v1.Organization
+	1,  // 13: aevo.org_manager.v1.ListOrganizationsRequest.status_filter:type_name -> aevo.org_manager.v1.OrgStatus
+	2,  // 14: aevo.org_manager.v1.ListOrganizationsResponse.organizations:type_name -> aevo.org_manager.v1.Organization
+	4,  // 15: aevo.org_manager.v1.GetOrgMemberResponse.member:type_name -> aevo.org_manager.v1.OrgMember
+	0,  // 16: aevo.org_manager.v1.ListOrgMembersRequest.role_filter:type_name -> aevo.org_manager.v1.OrgRole
+	4,  // 17: aevo.org_manager.v1.ListOrgMembersResponse.members:type_name -> aevo.org_manager.v1.OrgMember
+	0,  // 18: aevo.org_manager.v1.UpdateMemberRoleRequest.new_role:type_name -> aevo.org_manager.v1.OrgRole
+	4,  // 19: aevo.org_manager.v1.UpdateMemberRoleResponse.member:type_name -> aevo.org_manager.v1.OrgMember
+	0,  // 20: aevo.org_manager.v1.CreateOrgMemberRequest.role:type_name -> aevo.org_manager.v1.OrgRole
+	4,  // 21: aevo.org_manager.v1.CreateOrgMemberResponse.member:type_name -> aevo.org_manager.v1.OrgMember
+	5,  // 22: aevo.org_manager.v1.OrgService.CreateOrganization:input_type -> aevo.org_manager.v1.CreateOrganizationRequest
+	7,  // 23: aevo.org_manager.v1.OrgService.GetOrganization:input_type -> aevo.org_manager.v1.GetOrganizationRequest
+	9,  // 24: aevo.org_manager.v1.OrgService.UpdateOrganization:input_type -> aevo.org_manager.v1.UpdateOrganizationRequest
+	11, // 25: aevo.org_manager.v1.OrgService.DeleteOrganization:input_type -> aevo.org_manager.v1.DeleteOrganizationRequest
+	12, // 26: aevo.org_manager.v1.OrgService.ListOrganizations:input_type -> aevo.org_manager.v1.ListOrganizationsRequest
+	20, // 27: aevo.org_manager.v1.OrgService.CreateOrgMember:input_type -> aevo.org_manager.v1.CreateOrgMemberRequest
+	14, // 28: aevo.org_manager.v1.OrgService.GetOrgMember:input_type -> aevo.org_manager.v1.GetOrgMemberRequest
+	16, // 29: aevo.org_manager.v1.OrgService.ListOrgMembers:input_type -> aevo.org_manager.v1.ListOrgMembersRequest
+	18, // 30: aevo.org_manager.v1.OrgService.UpdateMemberRole:input_type -> aevo.org_manager.v1.UpdateMemberRoleRequest
+	22, // 31: aevo.org_manager.v1.OrgService.RemoveMember:input_type -> aevo.org_manager.v1.RemoveMemberRequest
+	6,  // 32: aevo.org_manager.v1.OrgService.CreateOrganization:output_type -> aevo.org_manager.v1.CreateOrganizationResponse
+	8,  // 33: aevo.org_manager.v1.OrgService.GetOrganization:output_type -> aevo.org_manager.v1.GetOrganizationResponse
+	10, // 34: aevo.org_manager.v1.OrgService.UpdateOrganization:output_type -> aevo.org_manager.v1.UpdateOrganizationResponse
+	25, // 35: aevo.org_manager.v1.OrgService.DeleteOrganization:output_type -> google.protobuf.Empty
+	13, // 36: aevo.org_manager.v1.OrgService.ListOrganizations:output_type -> aevo.org_manager.v1.ListOrganizationsResponse
+	21, // 37: aevo.org_manager.v1.OrgService.CreateOrgMember:output_type -> aevo.org_manager.v1.CreateOrgMemberResponse
+	15, // 38: aevo.org_manager.v1.OrgService.GetOrgMember:output_type -> aevo.org_manager.v1.GetOrgMemberResponse
+	17, // 39: aevo.org_manager.v1.OrgService.ListOrgMembers:output_type -> aevo.org_manager.v1.ListOrgMembersResponse
+	19, // 40: aevo.org_manager.v1.OrgService.UpdateMemberRole:output_type -> aevo.org_manager.v1.UpdateMemberRoleResponse
+	25, // 41: aevo.org_manager.v1.OrgService.RemoveMember:output_type -> google.protobuf.Empty
+	32, // [32:42] is the sub-list for method output_type
+	22, // [22:32] is the sub-list for method input_type
+	22, // [22:22] is the sub-list for extension type_name
+	22, // [22:22] is the sub-list for extension extendee
+	0,  // [0:22] is the sub-list for field type_name
 }
 
 func init() { file_org_manager_proto_init() }
